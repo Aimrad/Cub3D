@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	*ft_calloc_lib(size_t num_elements, size_t element_size)
+void	*ft_calloc(size_t num_elements, size_t element_size)
 {
 	char	*ch;
 
@@ -23,6 +23,6 @@ void	*ft_calloc_lib(size_t num_elements, size_t element_size)
 	ch = malloc(num_elements * element_size);
 	if (ch == NULL)
 		return (ch);
-	ft_bzero_lib(ch, element_size * num_elements);
+	ft_bzero(ch, element_size * num_elements);
 	return (ch);
 }

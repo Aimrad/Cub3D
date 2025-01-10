@@ -90,33 +90,7 @@ char	*ft_save_and_read(int fd, char *save)
 	return (save);
 }
 
-char	*expand(char *line, int status, char **env)
-{
-	t_expand_gnl	ctx;
-
-	ctx.i = 0;
-	ctx.j = 0;
-	ctx.k = 0;
-	ctx.size = size_of_line(line, status, env);
-	ctx.result = malloc((ctx.size + 2) * sizeof(char));
-	if (!ctx.result)
-		return (NULL);
-	while (line[ctx.i] && line[ctx.i] != '\n')
-	{
-		if (line[ctx.i] == '$' && (ft_isalnum_lib(line[ctx.i + 1])
-				|| line[ctx.i + 1] == '_' || line[ctx.i + 1] == '?'))
-			copy_expand(&ctx, line, status, env);
-		else
-			copy_char(&ctx, line);
-	}
-	if (line[ctx.i] == '\n')
-		ctx.result[ctx.k++] = line[ctx.i++];
-	ctx.result[ctx.k] = '\0';
-	free(line);
-	return (ctx.result);
-}
-
-char	*get_next_line(int fd, int flag, int status, char **env)
+char	*get_next_line(int fd, int flag)
 {
 	char		*line;
 	static char	*save;
@@ -133,8 +107,6 @@ char	*get_next_line(int fd, int flag, int status, char **env)
 		return (NULL);
 	line = ft_get_line(save);
 	save = ft_save(save);
-	if (flag == 2)
-		line = expand(line, status, env);
 	if (line && line[0] == '\0')
 	{
 		free(line);

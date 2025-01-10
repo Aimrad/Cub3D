@@ -30,7 +30,7 @@ WHITE = \033[0;97m
 
 
 
-SRC_FILES	=	
+SRC_FILES	=	main
 
 
 SRCS 		= 	$(addprefix $(SRCS_DIR), $(addsuffix .c, $(SRC_FILES)))

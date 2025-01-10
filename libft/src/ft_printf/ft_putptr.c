@@ -23,9 +23,9 @@ void	ft_putptrbis(unsigned long long num)
 	else
 	{
 		if (num < 10)
-			ft_putchar_fd_lib((num + '0'), 1);
+			ft_putchar_fd((num + '0'), 1);
 		else
-			ft_putchar_fd_lib((num - 10 + 'a'), 1);
+			ft_putchar_fd((num - 10 + 'a'), 1);
 	}
 }
 

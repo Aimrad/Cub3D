@@ -52,7 +52,7 @@ static char	*get_word(const char *s, char c, size_t *i)
 	return (sub);
 }
 
-char	**ft_split_lib(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	size_t	i;
 	size_t	iresult;

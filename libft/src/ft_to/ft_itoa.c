@@ -28,7 +28,7 @@ static unsigned long	count(long i)
 	return (count);
 }
 
-char	*ft_itoa_lib(long nbr)
+char	*ft_itoa(long nbr)
 {
 	char			c;
 	char			*a;

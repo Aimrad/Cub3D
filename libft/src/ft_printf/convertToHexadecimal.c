@@ -23,13 +23,13 @@ void	convert(unsigned int num, const char format)
 	else
 	{
 		if (num < 10)
-			ft_putchar_fd_lib((num + '0'), 1);
+			ft_putchar_fd((num + '0'), 1);
 		else
 		{
 			if (format == 'x')
-				ft_putchar_fd_lib((num - 10 + 'a'), 1);
+				ft_putchar_fd((num - 10 + 'a'), 1);
 			if (format == 'X')
-				ft_putchar_fd_lib((num - 10 + 'A'), 1);
+				ft_putchar_fd((num - 10 + 'A'), 1);
 		}
 	}
 }

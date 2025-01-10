@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	ft_putnbr_fd_lib(int nb, int fd)
+void	ft_putnbr_fd(int nb, int fd)
 {
 	char	c;
 
@@ -28,8 +28,8 @@ void	ft_putnbr_fd_lib(int nb, int fd)
 	}
 	if (nb >= 10)
 	{
-		ft_putnbr_fd_lib(nb / 10, fd);
-		ft_putnbr_fd_lib(nb % 10, fd);
+		ft_putnbr_fd(nb / 10, fd);
+		ft_putnbr_fd(nb % 10, fd);
 	}
 	else
 	{

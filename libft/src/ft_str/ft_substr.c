@@ -12,14 +12,14 @@
 
 #include "libft.h" 
 
-char	*ft_substr_lib(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*sub;
 	size_t	i;
 	size_t	s_len;
 
 	i = 0;
-	s_len = ft_strlen_lib(s);
+	s_len = ft_strlen(s);
 	if (start > s_len)
 	{
 		sub = malloc(sizeof(char));
