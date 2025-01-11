@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:42:26 by artheon           #+#    #+#             */
-/*   Updated: 2025/01/10 17:10:11 by artheon          ###   ########.fr       */
+/*   Updated: 2025/01/11 18:22:48 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,44 +59,172 @@ char	*read_file(const char *filename)
 	return (content);
 }
 
-int		check_syntax(char *line)
+void	checking_identifier(char *line)
 {
 	int		i;
+
+	i = 0;
+	if (line[i] != 'N' || line[i] != 'S' || line[i] != 'W' || line[i] != 'E' || line[i] != 'F' || line[i] != 'C')
+		error_exit("Error\nL'identifiant est introuvable\n");
+	else if (line[i] == 'N' && line[i + 1] != 'O')
+		error_exit("Error\nL'identifiant n'est pas correct NO\n");
+	else if (line[i] == 'S' && line[i + 1] != 'O')
+		error_exit("Error\nL'identifiant n'est pas correct SO\n");
+	else if (line[i] == 'W' && line[i + 1] != 'E')
+		error_exit("Error\nL'identifiant n'est pas correct WE\n");
+	else if (line[i] == 'E' && line[i + 1] != 'A')
+		error_exit("Error\nL'identifiant n'est pas correct EA\n");
+	else if (line[i] == 'F' && line[i + 1] != ' ')
+		error_exit("Error\nL'identifiant n'est pas correct F\n");
+	else if (line[i] == 'C' && line[i + 1] != ' ')
+		error_exit("Error\nL'identifiant n'est pas correct C\n");
+	i = 2;
+	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+		i++;
+	// double keys
+	if (ft_strstr(line + i, "NO"))
+		error_exit("Error\nDouble identifiant trouvé NO\n");
+	else if (ft_strstr(line + i, "SO"))
+		error_exit("Error\nDouble identifiant trouvé SO\n");
+	else if (ft_strstr(line + i, "WE"))
+		error_exit("Error\nDouble identifiant trouvé WE\n");
+	else if (ft_strstr(line + i, "EA"))
+		error_exit("Error\nDouble identifiant trouvé WE\n");
+	else if (ft_strstr(line + i, "F"))
+		error_exit("Error\nDouble identifiant trouvé F\n");
+	else if (ft_strstr(line + i, "C"))
+		error_exit("Error\nDouble identifiant trouvé C\n");
+	return (0);
+}
+
+void	checking_identifier_args(char *line)
+{
+	int		i;
+	int		count_num;
+	int		count_comma;
+	char	*RGB;
 	int		j;
 
 	i = 0;
-	j = 0;
-	while (line[i] == ' ')
-		i++;
-	if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
+	count_num = 0;
+	count_comma = 0;
+	if (line[i] == 'N' && line[i + 1] == 'O')
 	{
-		j = i;
-		while (line[j + 1] != ' ')
-			j++;
-		if (j > 2)
-			return (0);
-		if (line[j] == line[j - 1])
-			return (0);
-		i = j;
-		if (line[i + 1] != '.')
-			return (0);
+		i += 2;
+		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+			i++;
+		if (!line[i] || open(line + i, O_RDONLY) < 0)
+			error_exit("Error\nNO path : invalide\n");
 	}
-	return (1);
+	else if (line[i] == 'S' && line[i + 1] == 'O')
+	{
+		i += 2;
+		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+			i++;
+		if (!line[i] || open(line + i, O_RDONLY) < 0)
+			error_exit("Error\nSO path : invalide\n");
+	}
+	else if (line[i] == 'W' && line[i + 1] == 'E')
+	{
+		i += 2;
+		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+			i++;
+		if (!line[i] || open(line + i, O_RDONLY) < 0)
+			error_exit("Error\nWE path : invalide\n");
+	}
+	else if (line[i] == 'E' && line[i + 1] == 'A')
+	{
+		i += 2;
+		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+			i++;
+		if (!line[i] || open(line + i, O_RDONLY) < 0)
+			error_exit("Error\nEA path : invalide\n");
+	}
+	if (line[i] == 'F')
+	{
+		i += 1;
+		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+			i++;
+		if (!line[i])
+			error_exit("Error\nL'identifiant F n'a pas d'arguments\n");
+		while (line[i])
+		{
+			j = 0;
+			while (line[i] && line[i] != ',')
+			{
+				if (line[i] < '0' || line[i] > '9')
+					error_exit("Error\nF args ne doit contenir que des chiffres et virgules\n");
+				j++;
+				i++;
+			}
+			RGB = ft_substr(line, i - j, j);
+			if (ft_atoi(RGB) < 0 || ft_atoi(RGB) > 255)
+				error_exit("Error\nF args doit être compris entre 0 et 255\n");
+			else
+				count_num++;
+			if (line[i] == ',')
+			{
+				count_comma++;
+				i++;
+			}
+		}
+		if (count_num < 3 || count_num > 3 || count_comma > 2 || count_comma < 2)
+			error_exit("Error\nL'identifiant F n'a pas d'arguments valide\n");
+	}
+	else if (line[i] == 'C')
+	{
+		i += 1;
+		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+			i++;
+		if (!line[i])
+			error_exit("Error\nL'identifiant C n'a pas d'arguments\n");
+		while (line[i])
+		{
+			j = 0;
+			while (line[i] && line[i] != ',')
+			{
+				if (line[i] < '0' || line[i] > '9')
+					error_exit("Error\nF args ne doit contenir que des chiffres et virgules\n");
+				j++;
+				i++;
+			}
+			RGB = ft_substr(line, i - j, j);
+			if (ft_atoi(RGB) < 0 || ft_atoi(RGB) > 255)
+				error_exit("Error\nF args doit être compris entre 0 et 255\n");
+			else
+				count_num++;
+			if (line[i] == ',')
+			{
+				count_comma++;
+				i++;
+			}
+		}
+		if (count_num < 3 || count_num > 3 || count_comma > 2 || count_comma < 2)
+			error_exit("Error\nL'identifiant F n'a pas d'arguments valide\n");
+	}
 }
 
-void	ft_find_map(char *file_content)
+void	checking_map_element(char *line)
 {
 	int		i;
-	char	*check;
 
 	i = 0;
-	while (file_content[i] != '\0' && i <= 1)
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	checking_identifier(line);
+	checking_identifier_args(line);
+}
+
+void	check_error(char *file_content)
+{
+	char	**lines;
+	int		i;
+
+	lines = ft_split(file_content, '\n');
+	i = 0;
+	while (lines[i])
 	{
-		while (file_content[i] != '\n')
-			i++;
-		check = ft_substr(file_content, 0, i);
-		if (check_syntax(check) == 0)
-			error_exit("Error\nSyntaxe de la map incorrecte\n");
+		checking_map_element(lines[i]);
 		i++;
 	}
 }
@@ -109,6 +237,6 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		error_exit("Error\nUsage: ./cub3d <fichier .cub>\n");
 	file_content = read_file(argv[1]);
-	ft_find_map(file_content);
+	check_error(file_content);
 	return (0);
 }
