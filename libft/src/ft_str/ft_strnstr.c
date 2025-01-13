@@ -34,7 +34,7 @@ char	*ft_strstr(const char *haystack, const char *needle)
 			== needle[j])
 			j++;
 		if (j == n_len)
-			return (ft_strdup(str + i));
+			return (str + i);
 		i++;
 	}
 	return (NULL);

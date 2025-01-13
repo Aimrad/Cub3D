@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/01/10 14:28:03 by artheon          ###   ########.fr       */
+/*   Updated: 2025/01/13 20:47:03 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ typedef struct s_map
     char    player_dir;
 }   t_map;
 
-void    error_exit(char *msg);
+void	error_exit(char *msg, int flags);
 
 #endif
