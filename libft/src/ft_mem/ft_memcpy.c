@@ -23,7 +23,10 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	srcc = (unsigned char *)src;
 	while (n > 0)
 	{
-		*dstc++ = *srcc++;
+		if (*srcc == ' ')
+			*dstc++ = '1';
+		else
+			*dstc++ = *srcc++;
 		n--;
 	}
 	return (dst);

@@ -34,7 +34,10 @@ char	*ft_strstr(const char *haystack, const char *needle)
 			== needle[j])
 			j++;
 		if (j == n_len)
+		{
+			free((char *)needle);
 			return (str + i);
+		}
 		i++;
 	}
 	return (NULL);

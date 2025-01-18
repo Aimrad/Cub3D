@@ -6,11 +6,23 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:42:26 by artheon           #+#    #+#             */
-/*   Updated: 2025/01/13 23:38:13 by artheon          ###   ########.fr       */
+/*   Updated: 2025/01/18 01:22:51 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+
+void	print_char(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		printf("char : %s\n", split[i]);
+		i++;
+	}
+}
 
 void	free_split(char **split)
 {
@@ -244,39 +256,44 @@ int	checking_map_element(char *line, int *count_elem)
 	return (0);
 }
 
-int	is_only_digits(char *lines)
+bool	is_valid_map_line(char *line)
 {
 	int	i;
 
 	i = 0;
-	while (lines[i])
+	while (line[i])
 	{
-		while (lines[i] == ' ' || lines[i] == '\t')
-			i++;
-		if (lines[i] < '0' || lines[i] > '9')
-			return (0);
+		if (line[i] != ' ' && line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
+			return (false);
 		i++;
 	}
-	return (1);
+	return (true);
 }
 
-int	check_error(char *file_content)
+char	*check_error(char *file_content)
 {
 	char	**lines;
+	char	*map_location;
 	int		i;
 	int		count_element;
 
 	lines = ft_split(file_content, '\n');
+	map_location = NULL;
 	i = 0;
 	count_element = 0;
 	while (lines[i])
 	{
-		if(is_only_digits(lines[i]))
+		if(is_valid_map_line(lines[i]))
+		{
+			map_location = ft_strdup(lines[i]);	
+			if (!map_location)
+				return (NULL);
 			break ;
+		}
 		if(checking_map_element(lines[i], &count_element) == 1)
 		{
 			free_split(lines);
-			return (1);
+			return (NULL);
 		}	
 		i++;
 	}
@@ -287,73 +304,203 @@ int	check_error(char *file_content)
 			error_exit("Error\nIl manque quelque chose dans la description\n", 0);	
 		else
 			error_exit("Error\nUn élément est en trop dans la description\n", 0);
-		return (1);
+		return (NULL);
 	}
-	return (0);
+	if (!map_location)
+		error_exit("Error\nCarte non trouvée dans le fichier.\n", 0);
+	return (map_location);
 }
 
-char	*locate_map_section(char *file_content)
+bool	is_valid_map_char(char c)
+{
+	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == ' ');
+}
+
+bool	is_player_char(char c)
+{
+	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
+}
+
+t_map	*parse_map(char *map_section)
 {
 	char	**lines;
-	char	*map_section;
-	char	*temp;
+	char	*new_line;
+	t_map	*map;
+	size_t	nbrdechaines;
 	int		i;
-	int		start_index;
-
-	lines = ft_split(file_content, "\n");
-	i = 0;
-	start_index = -1;
-	while (lines[i])
+	int		y;
+	int		x;
+	int		len;
+	int		start;
+	int		player_count;
+	int		temp;
+	
+	lines = NULL;
+	map = malloc(sizeof(t_map));
+	if (!map)
 	{
-		if (is_only_digits(lines[i]))
+		error_exit("Allocation mémoire échoué.\n", 0);
+		return (NULL);
+	}
+	ft_memset(map, 0, sizeof(t_map));
+	i = 0;
+	nbrdechaines = 0;
+	player_count = 0;
+	while (map_section[i])
+	{
+		if (!is_valid_map_char(map_section[i]) && map_section[i] != '\n')
 		{
-			start_index = i;
-			break ;
+			free(map);
+			error_exit("Caractère invalide dans la carte.\n", 0);
+			return (NULL);
+		}
+		if (is_player_char(map_section[i]))
+			player_count++;
+		if (map_section[i] == '\n' || map_section[i + 1] == '\0')
+			nbrdechaines++;
+		i++;
+	}
+	if (player_count != 1)
+	{
+		free(map);
+		error_exit("Il doit y avoir exactement un joueur sur la carte.\n", 0);
+		return (NULL);
+	}
+	lines = ft_calloc(nbrdechaines + 1, sizeof(char *));
+	if (!lines)
+	{
+		free(map);
+		error_exit("Allocation mémoire échoué\n", 0);
+		return (NULL);
+	}
+	i = 0;
+	nbrdechaines = 0;
+	start = 0;
+	while (map_section[i])
+	{
+		if (map_section[i] == '\n' || map_section[i + 1] == '\0')
+		{
+			if (map_section[i] == '\n')
+				lines[nbrdechaines] = ft_substr(map_section, start, i - start + 0);
+			else
+				lines[nbrdechaines] = ft_substr(map_section, start, i - start + 1);
+			if (!lines[nbrdechaines])
+			{
+				free_split(lines);
+				free(map);
+				error_exit("Allocation mémoire échoué\n", 0);
+				return (NULL);
+			}
+			if (lines[nbrdechaines][0] == '\0')
+			{
+				free_split(lines);
+				free(map);
+				error_exit("Ligne vide dans la carte.\n", 0);
+				return (NULL);
+			}
+			nbrdechaines++;
+			start = i + 1;
 		}
 		i++;
 	}
-	if (start_index == -1)
-	{
-		free_split(lines);
-		return (NULL);
-	}
-	map_section = ft_strdup(lines[start_index]);
-	i = start_index + 1;
+	map->grid = lines;
+	map->height = (int)nbrdechaines;
+	map->width = ft_strlen(lines[0]);
+	i = 1;
 	while (lines[i])
 	{
-		temp = map_section;
-		map_section = ft_strjoin(map_section, "\n");
-		free(temp);
-		temp = map_section;
-		map_section = ft_strjoin(map_section, lines[i]);
-		free(temp);
+		temp = ft_strlen(lines[i]);
+		if (map->width < temp)
+			map->width = temp;
 		i++;
 	}
-	free_split(lines);
-	return (map_section);
+	len = 0;
+	y = 0;
+	x = 0;
+	while (y < map->height)
+	{
+		len = ft_strlen(map->grid[y]);
+		if (len < map->width)
+		{
+			new_line = ft_calloc(map->width + 1, sizeof(char));
+			if (!new_line)
+			{
+				free_split(map->grid);
+				free(map);
+				error_exit("Allocation mémoire échoué", 0);
+				return (NULL);	
+			}
+			ft_memset(new_line, '1', map->width);
+			ft_memcpy(new_line, map->grid[y], len);
+			free(map->grid[y]);
+			map->grid[y] = new_line;
+		}
+		else
+		{
+			x = 0;
+			while (map->grid[y][x])
+			{
+				if (map->grid[y][x] == ' ')
+					map->grid[y][x] = '1';
+				x++;
+			}
+		}
+		y++;
+	}
+	y = 0;
+	x = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			if (map->grid[y][x] != '1' && (y == 0 || y == map->height - 1 || x == 0 || x == (int)ft_strlen(map->grid[y]) - 1))
+			{
+				free_split(map->grid);
+				free(map);
+				error_exit("La carte doit être fermée par des murs.", 0);
+				return (NULL);
+			}
+			if (is_player_char(map->grid[y][x]))
+			{
+				map->player_y = y;
+				map->player_x = x;
+				map->player_dir = map->grid[y][x];
+				map->grid[y][x] = '0';
+			}
+			x++;
+		}
+		y++;
+	}
+	return (map);
 }
 
 int main(int argc, char **argv)
 {
 	char	*file_content;
 	char	*map_section;
+	t_map	*map;
 
 	if (argc != 2)
 		error_exit("Error\nUsage: ./cub3d <fichier .cub>\n", 1);
 	file_content = read_file(argv[1]);
-	if(check_error(file_content) == 1)
+	// Localisation de la map
+	map_section = ft_strstr(file_content, check_error(file_content));
+	if(!map_section)
 	{
 		free(file_content);
 		exit(EXIT_FAILURE);
 	}
-	// Localisation de la map
-	map_section = locate_map_section(file_content);
-	if (!map_section)
+	map = parse_map(map_section);
+	if (!map)
 	{
 		free(file_content);
-		error_exit("Error\nImpossible de localiser la section de la carte\n", 1);
+		exit(EXIT_FAILURE);
 	}
-	free(map_section);
+	printf("Carte analysée avec succès ! Dimensions : %dx%d\n", map->width, map->height);
+	printf("Joueur positionné en (%d, %d) avec orientation %c.\n", map->player_dir, map->player_y, map->player_dir);
 	free(file_content);
+	free_split(map->grid);
+	free(map);
 	return (0);
 }
