@@ -6,12 +6,12 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/15 14:59:30 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/15 15:19:16 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE_3D_H
-# define CUBE_3D_H
+#ifndef CUBE3D_H
+# define CUBE3D_H
 
 # include <stdbool.h>
 # include <math.h>
@@ -57,19 +57,19 @@ typedef struct s_img
 
 typedef struct s_game
 {
-	void    	*mlx;
-	void    	*win;
-	char    	**grid;
-	int     	width;
-	int     	height;
-	int	 		z;
+	void		*mlx;
+	void		*win;
+	char		**grid;
+	int			width;
+	int			height;
+	int			z;
 	int			s;
 	int			q;
 	int			d;
 	int			rotate_left;
 	int			rotate_right;
-	double     	pos_x;
-	double    	pos_y;
+	double		pos_x;
+	double		pos_y;
 	double		dir_x;
 	double		dir_y;
 	double		plane_x;
@@ -78,7 +78,7 @@ typedef struct s_game
 	t_texture	texture[6];
 	t_img		img;
 	t_img		mini_map;
-}   t_game;
+}	t_game;
 
 // # ====================================================== #
 // |														|
@@ -160,6 +160,6 @@ int		key_release(int keycode, t_game *game);
 // |														|
 // # ====================================================== #
 
-int	exit_game(t_game *game);
+int		exit_game(t_game *game);
 
 #endif
