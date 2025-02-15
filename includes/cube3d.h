@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/15 15:19:16 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:18:23 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,39 @@ typedef struct s_img
 	int		size_line;
 	int		endian;
 }	t_img;
+
+typedef struct s_render
+{
+	int			x;
+	double		camera_x;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	int			map_x;
+	int			map_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		side_dist_x;
+	double		side_dist_y;
+	int			step_x;
+	int			step_y;
+	int			hit;
+	int			side;
+	double		perp_wall_dist;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+	int			tex_index;
+	t_texture	*tex;
+	double		wall_x;
+	int			tex_x;
+	double		step;
+	double		tex_pos;
+	int			y;
+	int			tex_y;
+	int			color;
+	int			floor_color;
+	int			ceiling_color;
+}	t_render;
 
 typedef struct s_game
 {
@@ -137,12 +170,20 @@ void	clear_image(t_game *game);
 
 // # ====================================================== #
 // |														|
+// |						draw							|
+// |														|
+// # ====================================================== #
+
+void	draw_background(t_render rdr, t_game *game);
+void	draw_minimap(t_game *game);
+
+// # ====================================================== #
+// |														|
 // |						rendering						|
 // |														|
 // # ====================================================== #
 
 int		render(t_game *map);
-void	draw_minimap(t_game *game);
 
 // # ====================================================== #
 // |														|
