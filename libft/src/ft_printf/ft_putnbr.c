@@ -18,7 +18,7 @@ int	ft_putnbr(int nb)
 	int		digit_count;
 	char	*num;
 
-	num = ft_itoa_lib(nb);
+	num = ft_itoa(nb);
 	if (!num)
 		return (0);
 	digit_count = ft_putstr(num);

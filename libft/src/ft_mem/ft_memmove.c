@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	*ft_memmove_lib(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
 	unsigned char	*dstm;
 	unsigned char	*srcm;
@@ -32,6 +32,6 @@ void	*ft_memmove_lib(void *dst, const void *src, size_t len)
 		}
 	}
 	else
-		ft_memcpy_lib(dst, src, len);
+		ft_memcpy(dst, src, len);
 	return (dst);
 }

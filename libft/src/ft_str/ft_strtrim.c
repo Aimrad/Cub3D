@@ -12,16 +12,16 @@
 
 #include "libft.h" 
 
-char	*ft_strtrim_lib(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	len;
 
 	if (!s1 || !set)
 		return (NULL);
-	while (*s1 && ft_strchr_lib(set, *s1))
+	while (*s1 && ft_strchr(set, *s1))
 		s1++;
-	len = ft_strlen_lib(s1);
-	while (len > 0 && ft_strchr_lib(set, s1[len - 1]))
+	len = ft_strlen(s1);
+	while (len > 0 && ft_strchr(set, s1[len - 1]))
 		len--;
-	return (ft_substr_lib(s1, 0, len));
+	return (ft_substr(s1, 0, len));
 }

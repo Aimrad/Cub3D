@@ -11,7 +11,7 @@ CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra -I
 RM			=	rm -f
 AR			=	ar rcs
-MLX_FLAGS	=	-Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
+MLX_FLAGS	=	-Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11 -lm
 LIBFT		= libft
 
 #Colors
@@ -30,7 +30,7 @@ WHITE = \033[0;97m
 
 
 
-SRC_FILES	=	
+SRC_FILES	=	utils parsing map_parsing texture image rendering input exit main
 
 
 SRCS 		= 	$(addprefix $(SRCS_DIR), $(addsuffix .c, $(SRC_FILES)))

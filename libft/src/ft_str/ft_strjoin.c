@@ -12,7 +12,7 @@
 
 #include "libft.h" 
 
-char	*ft_strjoin_lib(const char *s1, const char *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
 	size_t	i;
 	size_t	j;
@@ -21,10 +21,10 @@ char	*ft_strjoin_lib(const char *s1, const char *s2)
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1)
-		return (strdup(s2));
+		return (ft_strdup(s2));
 	if (!s2)
-		return (strdup(s1));
-	result = malloc(strlen(s1) + strlen(s2) + 1);
+		return (ft_strdup(s1));
+	result = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!result)
 		return (NULL);
 	i = 0;

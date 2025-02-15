@@ -49,7 +49,7 @@ FTPRINTF		=	convertToHexadecimal ft_percent ft_printf ft_putnbr ft_putptr \
 					ft_putstr ft_uputnbr
 
 GET_NEXT_LINE_DIR	=	get_next_line/
-GET_NEXT_LINE		=	get_next_line_utils get_next_line return_exp size_of_line
+GET_NEXT_LINE		=	get_next_line_utils get_next_line
 
 SRC_FILES+=$(addprefix $(FTIS_DIR),$(FTIS))
 SRC_FILES+=$(addprefix $(FTMEM_DIR),$(FTMEM))

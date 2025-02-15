@@ -12,24 +12,6 @@
 
 #include "get_next_line.h"
 
-size_t	size_of_line(char *line, int status, char **env)
-{
-	int		i;
-	size_t	size;
-
-	i = 0;
-	size = 0;
-	while (line[i])
-	{
-		if ((line[i] == '$' && (ft_isalnum_lib(line[i + 1])
-					|| line[i + 1] == '_')) || line[i + 1] == '?')
-			size += expansion(line, &i, status, env);
-		else
-			size += regular(line, &i, status, env);
-	}
-	return (size);
-}
-
 size_t	ft_gnlstrlen(char *str)
 {
 	size_t	c;
