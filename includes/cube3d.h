@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/15 17:18:23 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/17 17:29:41 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define ROTATE_LEFT 65361
 # define ROTATE_RIGHT 65363
 # define ESC 65307
+# define MOVE_SPEED 0.1
+# define ROT_SPEED 0.05
 
 typedef struct s_config
 {
@@ -123,6 +125,7 @@ void	print_char(char **split);
 void	free_split(char **split);
 void	error_exit(char *msg, int flags);
 int		create_rgb(int r, int g, int b);
+void	calculate_texture_and_draw_wall(t_render rdr, t_game *game);
 
 // # ====================================================== #
 // |														|
@@ -184,6 +187,17 @@ void	draw_minimap(t_game *game);
 // # ====================================================== #
 
 int		render(t_game *map);
+
+// # ====================================================== #
+// |														|
+// |						input							|
+// |														|
+// # ====================================================== #
+
+void	forward_back(t_game *game);
+void	right_left(t_game *game);
+void    rotate_left(t_game *game);
+void    rotate_right(t_game *game);
 
 // # ====================================================== #
 // |														|
