@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/17 17:29:41 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/18 20:33:32 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,16 @@ typedef struct s_render
 	int			ceiling_color;
 }	t_render;
 
+typedef struct s_map_info
+{
+	int		num_lines;
+	int		player_count;
+	char	**lines;
+	char	*map_section;
+	int		nbrdechaines;
+	int		start;
+}	t_map_info;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -121,11 +131,11 @@ typedef struct s_game
 // |														|
 // # ====================================================== #
 
-void	print_char(char **split);
-void	free_split(char **split);
-void	error_exit(char *msg, int flags);
-int		create_rgb(int r, int g, int b);
-void	calculate_texture_and_draw_wall(t_render rdr, t_game *game);
+void		print_char(char **split);
+void		free_split(char **split);
+void		error_exit(char *msg, int flags);
+int			create_rgb(int r, int g, int b);
+void		calculate_texture_and_draw_wall(t_render rdr, t_game *game);
 
 // # ====================================================== #
 // |														|
@@ -133,11 +143,12 @@ void	calculate_texture_and_draw_wall(t_render rdr, t_game *game);
 // |														|
 // # ====================================================== #
 
-char	*read_file(const char *filename);
-int		checking_identifier(char *line);
-int		checking_identifier_args(char *line, int *count, t_config **config);
-int		checking_map_element(char *line, int *count_elem, t_config **config);
-bool	is_valid_map_line(char *line);
+char		*read_file(const char *filename);
+int			checking_identifier(char *line);
+int			checking_identifier_args(char *line, int *count, t_config **config);
+int			checking_map_element(char *line, int *count_elem, \
+			t_config **config);
+bool		is_valid_map_line(char *line);
 
 // # ====================================================== #
 // |														|
@@ -145,10 +156,29 @@ bool	is_valid_map_line(char *line);
 // |														|
 // # ====================================================== #
 
-char	*check_error(char *file_content, t_config **config);
-bool	is_valid_map_char(char c);
-bool	is_player_char(char c);
-t_game	*parse_map(char *map_section, t_config *config);
+char		*check_error(char *file_content, t_config **config);
+t_game		*parse_map(char *map_section, t_config *config);
+
+// # ====================================================== #
+// |														|
+// |						map_setup						|
+// |														|
+// # ====================================================== #
+
+void		pad_map_lines(t_game *map);
+void		init_player_and_check_walls(t_game *map);
+
+// # ====================================================== #
+// |														|
+// |						map_setup						|
+// |														|
+// # ====================================================== #
+
+t_map_info	validate_map_section(char *map_section);
+int			validate_elements(char **lines, int *count_element, \
+			t_config **config);
+bool		is_valid_map_char(char c);
+bool		is_player_char(char c);
 
 // # ====================================================== #
 // |														|
@@ -156,9 +186,9 @@ t_game	*parse_map(char *map_section, t_config *config);
 // |														|
 // # ====================================================== #
 
-void	load_texture(t_game *game, t_texture *tex, char *path);
-void	load_all_texture(t_game *game);
-int		get_texture_index(int side, double ray_dir_x, double ray_dir_y);
+void		load_texture(t_game *game, t_texture *tex, char *path);
+void		load_all_texture(t_game *game);
+int			get_texture_index(int side, double ray_dir_x, double ray_dir_y);
 
 // # ====================================================== #
 // |														|
@@ -166,10 +196,10 @@ int		get_texture_index(int side, double ray_dir_x, double ray_dir_y);
 // |														|
 // # ====================================================== #
 
-void	init_image(t_game *game);
-void	put_pixel_mini_map(t_game *game, int x, int y, int color);
-void	my_mlx_pixel_put(t_game *game, int x, int y, int color);
-void	clear_image(t_game *game);
+void		init_image(t_game *game);
+void		put_pixel_mini_map(t_game *game, int x, int y, int color);
+void		my_mlx_pixel_put(t_game *game, int x, int y, int color);
+void		clear_image(t_game *game);
 
 // # ====================================================== #
 // |														|
@@ -177,8 +207,8 @@ void	clear_image(t_game *game);
 // |														|
 // # ====================================================== #
 
-void	draw_background(t_render rdr, t_game *game);
-void	draw_minimap(t_game *game);
+void		draw_background(t_render rdr, t_game *game);
+void		draw_minimap(t_game *game);
 
 // # ====================================================== #
 // |														|
@@ -186,7 +216,7 @@ void	draw_minimap(t_game *game);
 // |														|
 // # ====================================================== #
 
-int		render(t_game *map);
+int			render(t_game *map);
 
 // # ====================================================== #
 // |														|
@@ -194,10 +224,10 @@ int		render(t_game *map);
 // |														|
 // # ====================================================== #
 
-void	forward_back(t_game *game);
-void	right_left(t_game *game);
-void    rotate_left(t_game *game);
-void    rotate_right(t_game *game);
+void		forward_back(t_game *game);
+void		right_left(t_game *game);
+void		rotate_left(t_game *game);
+void		rotate_right(t_game *game);
 
 // # ====================================================== #
 // |														|
@@ -205,9 +235,9 @@ void    rotate_right(t_game *game);
 // |														|
 // # ====================================================== #
 
-void	key(t_game *game);
-int		key_press(int keycode, t_game *game);
-int		key_release(int keycode, t_game *game);
+void		key(t_game *game);
+int			key_press(int keycode, t_game *game);
+int			key_release(int keycode, t_game *game);
 
 // # ====================================================== #
 // |														|
@@ -215,6 +245,6 @@ int		key_release(int keycode, t_game *game);
 // |														|
 // # ====================================================== #
 
-int		exit_game(t_game *game);
+int			exit_game(t_game *game);
 
 #endif
