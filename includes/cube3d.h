@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/18 20:33:32 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/19 15:20:31 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,16 +161,36 @@ t_game		*parse_map(char *map_section, t_config *config);
 
 // # ====================================================== #
 // |														|
-// |						map_setup						|
+// |						player_setup					|
+// |														|
+// # ====================================================== #
+
+void		set_north_dir(t_game *map);
+void		set_south_dir(t_game *map);
+void		set_east_dir(t_game *map);
+void		set_west_dir(t_game *map);
+void		set_player_dir(t_game *map, char dir);
+
+// # ====================================================== #
+// |														|
+// |						player_setup					|
 // |														|
 // # ====================================================== #
 
 void		pad_map_lines(t_game *map);
-void		init_player_and_check_walls(t_game *map);
 
 // # ====================================================== #
 // |														|
 // |						map_setup						|
+// |														|
+// # ====================================================== #
+
+void		handle_error(t_game *map, char *msg);
+void		init_player_and_check_walls(t_game *map);
+
+// # ====================================================== #
+// |														|
+// |						map_validator					|
 // |														|
 // # ====================================================== #
 

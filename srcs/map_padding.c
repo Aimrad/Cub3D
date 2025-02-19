@@ -1,0 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_padding.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/19 15:18:59 by artheon           #+#    #+#             */
+/*   Updated: 2025/02/19 15:20:55 by artheon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cube3d.h"
+
+static void	replace_spaces_with_walls(t_game *map, int y)
+{
+	int	x;
+
+	x = 0;
+	while (map->grid[y][x])
+	{
+		if (map->grid[y][x] == ' ')
+			map->grid[y][x] = '1';
+		x++;
+	}
+}
+
+static void	pad_lines(t_game *map, int len, int y)
+{
+	char	*new_line;
+
+	new_line = ft_calloc(map->width + 1, sizeof(char));
+	if (!new_line)
+	{
+		handle_error(map, "Allocation mémoire échoué.\n");
+		return ;
+	}
+	ft_memset(new_line, '1', map->width);
+	ft_memcpy(new_line, map->grid[y], len);
+	free(map->grid[y]);
+	map->grid[y] = new_line;
+}
+
+void	pad_map_lines(t_game *map)
+{
+	int		max_width;
+	int		y;
+	int		len;
+
+	max_width = (int)ft_strlen(map->grid[0]);
+	y = 1;
+	while (map->grid[y])
+	{
+		len = (int)ft_strlen(map->grid[y]);
+		if (len > max_width)
+			max_width = len;
+		y++;
+	}
+	map->width = max_width;
+	y = 0;
+	while (y < map->height)
+	{
+		len = ft_strlen(map->grid[y]);
+		if (len < map->width)
+			pad_lines(map, len, y);
+		else
+			replace_spaces_with_walls(map, y);
+		y++;
+	}
+}

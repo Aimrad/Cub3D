@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 17:17:52 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/17 17:28:53 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/19 15:21:37 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	right_left(t_game *game)
 	}
 }
 
-void    rotate_left(t_game *game)
+void	rotate_left(t_game *game)
 {
 	double	old_dir_x;
 	double	old_plane_x;
@@ -83,7 +83,7 @@ void    rotate_left(t_game *game)
 	}
 }
 
-void    rotate_right(t_game *game)
+void	rotate_right(t_game *game)
 {
 	double	old_dir_x;
 	double	old_plane_x;

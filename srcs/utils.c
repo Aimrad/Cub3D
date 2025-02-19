@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:36:29 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/17 16:25:00 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/19 15:23:18 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	error_exit(char *msg, int flags)
 {
 	ft_putstr_fd(msg, 2);
 	if (flags)
-		exit(EXIT_FAILURE);	
+		exit(EXIT_FAILURE);
 }
 
-int create_rgb(int r, int g, int b)
+int	create_rgb(int r, int g, int b)
 {
 	return (r << 16 | g << 8 | b);
 }
