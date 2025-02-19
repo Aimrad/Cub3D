@@ -6,13 +6,13 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 16:58:58 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/15 17:19:40 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/19 18:00:55 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static void draw_ceiling(t_render rdr, t_game *game)
+static void	draw_ceiling(t_render rdr, t_game *game)
 {
 	rdr.y = 0;
 	while (rdr.y < SCREEN_HEIGHT / 2)
@@ -28,7 +28,7 @@ static void draw_ceiling(t_render rdr, t_game *game)
 	}
 }
 
-static void draw_floor(t_render rdr, t_game *game)
+static void	draw_floor(t_render rdr, t_game *game)
 {
 	rdr.y = SCREEN_HEIGHT / 2;
 	while (rdr.y < SCREEN_HEIGHT)

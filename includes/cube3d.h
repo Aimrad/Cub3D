@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/19 15:20:31 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/19 18:00:16 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ int			checking_identifier(char *line);
 int			checking_identifier_args(char *line, int *count, t_config **config);
 int			checking_map_element(char *line, int *count_elem, \
 			t_config **config);
-bool		is_valid_map_line(char *line);
 
 // # ====================================================== #
 // |														|
@@ -199,6 +198,7 @@ int			validate_elements(char **lines, int *count_element, \
 			t_config **config);
 bool		is_valid_map_char(char c);
 bool		is_player_char(char c);
+bool		is_valid_map_line(char *line);
 
 // # ====================================================== #
 // |														|
@@ -209,6 +209,7 @@ bool		is_player_char(char c);
 void		load_texture(t_game *game, t_texture *tex, char *path);
 void		load_all_texture(t_game *game);
 int			get_texture_index(int side, double ray_dir_x, double ray_dir_y);
+int			parse_color(char *line, int *i);
 
 // # ====================================================== #
 // |														|

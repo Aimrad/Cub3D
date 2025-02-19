@@ -6,11 +6,39 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:42:26 by artheon           #+#    #+#             */
-/*   Updated: 2025/01/18 01:22:51 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/19 17:00:03 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+
+char	*read_file(const char *filename)
+{
+	int		fd;
+	char	*temp;
+	int		len;
+	char	*content;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		error_exit("Error\nImpossible d'ouvrir le fichier\n", 1);
+	len = ft_strlen(filename);
+	if (len < 4 || ft_strncmp(filename + len - 4, ".cub", 4))
+		error_exit("Error\nLe fichier doit être un .cub\n", 1);
+	content = NULL;
+	temp = get_next_line(fd, 0);
+	while (temp)
+	{
+		content = ft_strjoin(content, temp);
+		free(temp);
+		temp = get_next_line(fd, 0);
+	}
+	close(fd);
+	get_next_line(fd, 1);
+	if (!content)
+		error_exit("Error\nFichier vide\n", 1);
+	return (content);
+}
 
 int main(int argc, char **argv)
 {

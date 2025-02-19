@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:42:38 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/19 15:22:42 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/19 17:59:46 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,26 @@ int	get_texture_index(int side, double ray_dir_x, double ray_dir_y)
 		else
 			return (0);
 	}
+}
+
+int	parse_color(char *line, int *i)
+{
+	int	j;
+	int	rgb;
+	int	value;
+
+	j = 0;
+	while (line[*i] && line[*i] != ',')
+	{
+		if (line[*i] < '0' || line[*i] > '9')
+			return (error_exit("Error\nColor args: invalide form\n", 0), -1);
+		j++;
+		(*i)++;
+	}
+	rgb = ft_substr(line, *i - j, j);
+	value = (int)ft_atoi(rgb);
+	free(rgb);
+	if (value < 0 || value > 255)
+		return (error_exit("Error\nColor args: 0-255\n", 0), free(rgb), -1);
+	return (value);
 }
