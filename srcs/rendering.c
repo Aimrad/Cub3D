@@ -1,223 +1,113 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering.c                                        :+:      :+:    :+:   */
+/*   rendering->c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: artheon <artheon@student->42->fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:45:05 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/15 14:45:59 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 17:39:13 by artheon          ###   ########->fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int	render(t_game *map)
+static void	init_ray_params(t_render *rdr, t_game *game)
 {
-	int			x;
-	double		camera_x;
-	double		ray_dir_x;
-	double		ray_dir_y;
-	int			map_x;
-	int			map_y;
-	double		delta_dist_x;
-	double		delta_dist_y;
-	double		side_dist_x;
-	double		side_dist_y;
-	int			step_x;
-	int			step_y;
-	int			hit;
-	int			side;
-	double		perp_wall_dist;
-	int			line_height;
-	int			draw_start;
-	int			draw_end;
-	int			tex_index;
-	t_texture	*tex;
-	double		wall_x;
-	int			tex_x;
-	double		step;
-	double		tex_pos;
-	int			y;
-	int			tex_y;
-	int			color;
-	int			floor_color;
-	int			ceiling_color;
-
-	clear_image(map);
-	y = 0;
-	floor_color = create_rgb(map->config->floor_color[0], map->config->floor_color[1], map->config->floor_color[2]);
-	ceiling_color = create_rgb(map->config->ceiling_color[0], map->config->ceiling_color[1], map->config->ceiling_color[2]);
-	while (y < SCREEN_HEIGHT / 2)
-	{
-		x = 0;
-		while (x < SCREEN_WIDTH)
-		{
-			my_mlx_pixel_put(map, x, y, ceiling_color);
-			x++;
-		}
-		y++;
-	}
-	y = SCREEN_HEIGHT / 2;
-	while (y < SCREEN_HEIGHT)
-	{
-		x = 0;
-		while (x < SCREEN_WIDTH)
-		{
-			my_mlx_pixel_put(map, x, y, floor_color);
-			x++;
-		}
-		y++;
-	}
-	x = 0;
-	while (x < SCREEN_WIDTH)
-	{
-		camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
-		ray_dir_x = map->dir_x + map->plane_x * camera_x;
-		ray_dir_y = map->dir_y + map->plane_y * camera_x;
-		map_x = (int)map->pos_x;
-		map_y = (int)map->pos_y;
-		if (ray_dir_x == 0)
-			delta_dist_x = 1e30;
-		else
-			delta_dist_x = fabs(1 / ray_dir_x);
-		if (ray_dir_y == 0)
-			delta_dist_y = 1e30;
-		else
-			delta_dist_y = fabs(1 / ray_dir_y);
-		hit = 0;
-		if (ray_dir_x < 0)
-		{
-			step_x = -1;
-			side_dist_x = (map->pos_x - map_x) * delta_dist_x;
-		}
-		else
-		{
-			step_x = 1;
-			side_dist_x = (map_x + 1.0 - map->pos_x) * delta_dist_x;
-		}
-		if (ray_dir_y < 0)
-		{
-			step_y = -1;
-			side_dist_y = (map->pos_y - map_y) * delta_dist_y;
-		}
-		else
-		{
-			step_y = 1;
-			side_dist_y = (map_y + 1.0 - map->pos_y) * delta_dist_y;
-		}
-		while (!hit)
-		{
-			if (side_dist_x < side_dist_y)
-			{
-				side_dist_x += delta_dist_x;
-				map_x += step_x;
-				side = 0;
-			}
-			else
-			{
-				side_dist_y += delta_dist_y;
-				map_y += step_y;
-				side = 1;
-			}
-			if (map->grid[map_y][map_x] == '1')
-				hit = 1;
-		}
-		if (side == 0)
-			perp_wall_dist = side_dist_x - delta_dist_x;
-		else
-			perp_wall_dist = side_dist_y - delta_dist_y;
-		line_height = (int)(SCREEN_HEIGHT / perp_wall_dist);
-		draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
-		draw_end = line_height / 2 + SCREEN_HEIGHT / 2;
-		if (draw_start < 0)
-			draw_start = 0;
-		if (draw_end >= SCREEN_HEIGHT)
-			draw_end = SCREEN_HEIGHT - 1;
-		tex_index = get_texture_index(side, ray_dir_x, ray_dir_y);
-		tex = &map->texture[tex_index];
-		if (side == 0)
-			wall_x = map->pos_y + perp_wall_dist * ray_dir_y;
-		else
-			wall_x = map->pos_x + perp_wall_dist * ray_dir_x;
-		wall_x -= floor(wall_x);
-		tex_x = (int)(wall_x * (double)tex->width);
-		if ((side == 0 && ray_dir_x > 0) || (side == 1 && ray_dir_y < 0))
-			tex_x = tex->width - tex_x - 1;
-		step = 1.0 * tex->height / line_height;
-		tex_pos = (draw_start - SCREEN_HEIGHT / 2 + line_height / 2) * step;
-		y = draw_start;
-		while (y < draw_end)
-		{
-			tex_y = (int)tex_pos & (tex->height - 1);
-			tex_pos += step;
-			color = tex->data[tex->height * tex_y + tex_x];
-			my_mlx_pixel_put(map, x, y, color);
-			y++;
-		}
-		x++;
-	}
-	mlx_put_image_to_window(map->mlx, map->win, map->img.img, 0, 0);
-	key(map);
-	draw_minimap(map);
-	return (0);
+	rdr->camera_x = 2 * rdr->x / (double)SCREEN_WIDTH - 1;
+	rdr->ray_dir_x = game->dir_x + game->plane_x * rdr->camera_x;
+	rdr->ray_dir_y = game->dir_y + game->plane_y * rdr->camera_x;
+	rdr->map_x = (int)game->pos_x;
+	rdr->map_y = (int)game->pos_y;
+	if (rdr->ray_dir_x == 0)
+		rdr->delta_dist_x = 1e30;
+	else
+		rdr->delta_dist_x = fabs(1 / rdr->ray_dir_x);
+	if (rdr->ray_dir_y == 0)
+		rdr->delta_dist_y = 1e30;
+	else
+		rdr->delta_dist_y = fabs(1 / rdr->ray_dir_y);
 }
 
-void	draw_minimap(t_game *game)
+static void	init_step_and_side(t_render *rdr, t_game *game)
 {
-	int	y;
-	int	x;
-	int	i;
-	int	j;
-	int mini_tile;
-	int	color;
-	int	px;
-	int	py;
+	rdr->hit = 0;
+	if (rdr->ray_dir_x < 0)
+	{
+		rdr->step_x = -1;
+		rdr->side_dist_x = (game->pos_x - rdr->map_x) * rdr->delta_dist_x;
+	}
+	else
+	{
+		rdr->step_x = 1;
+		rdr->side_dist_x = (rdr->map_x + 1.0 - game->pos_x) * rdr->delta_dist_x;
+	}
+	if (rdr->ray_dir_y < 0)
+	{
+		rdr->step_y = -1;
+		rdr->side_dist_y = (game->pos_y - rdr->map_y) * rdr->delta_dist_y;
+	}
+	else
+	{
+		rdr->step_y = 1;
+		rdr->side_dist_y = (rdr->map_y + 1.0 - game->pos_y) * rdr->delta_dist_y;
+	}
+}
 
-	y = 0;
-	mini_tile = 20;
-	while (y < game->height)
+static void	perfom_dda(t_render *rdr, t_game *game)
+{
+	while (!rdr->hit)
 	{
-		x = 0;
-		while (x < game->width)
+		if (rdr->side_dist_x < rdr->side_dist_y)
 		{
-			if (game->grid[y][x] == '1')
-				color = 0xFFFFFF;
-			else
-				color = 0x000000;
-			i = 0;
-			while (i < mini_tile)
-			{
-				j = 0;
-				while (j < mini_tile)
-				{
-					put_pixel_mini_map(game, x * mini_tile + i, y * mini_tile + j, color);
-					j++;
-				}
-				i++;
-			}
-			x++;
+			rdr->side_dist_x += rdr->delta_dist_x;
+			rdr->map_x += rdr->step_x;
+			rdr->side = 0;
 		}
-		y++;
-	}
-	px = (int)(game->pos_x * mini_tile);
-	py = (int)(game->pos_y * mini_tile);
-	i = -5;
-	while (i <= 5)
-	{
-		j = -5;
-		while (j <= 5)
+		else
 		{
-			put_pixel_mini_map(game, px + i, py + j, 0xFF0000);
-			j++;
+			rdr->side_dist_y += rdr->delta_dist_y;
+			rdr->map_y += rdr->step_y;
+			rdr->side = 1;
 		}
-		i++;
+		if (game->grid[rdr->map_y][rdr->map_x] == '1')
+			rdr->hit = 1;
 	}
-	i = 0;
-	while (i < 20)
+}
+
+static void	calculate_draw_params(t_render *rdr)
+{
+	if (rdr->side == 0)
+		rdr->perp_wall_dist = rdr->side_dist_x - rdr->delta_dist_x;
+	else
+		rdr->perp_wall_dist = rdr->side_dist_y - rdr->delta_dist_y;
+	rdr->line_height = (int)(SCREEN_HEIGHT / rdr->perp_wall_dist);
+	rdr->draw_start = -rdr->line_height / 2 + SCREEN_HEIGHT / 2;
+	rdr->draw_end = rdr->line_height / 2 + SCREEN_HEIGHT / 2;
+	if (rdr->draw_start < 0)
+		rdr->draw_start = 0;
+	if (rdr->draw_end >= SCREEN_HEIGHT)
+		rdr->draw_end = SCREEN_HEIGHT - 1;
+}
+
+int	render(t_game *game)
+{
+	t_render	rdr;
+
+	clear_image(game);
+	draw_background(rdr, game);
+	rdr.x = 0;
+	while (rdr.x < SCREEN_WIDTH)
 	{
-		put_pixel_mini_map(game, px + (int)(game->dir_x * i), py + (int)(game->dir_y * i), 0xFF0000);
-		i++;
+		init_ray_params(&rdr, game);
+		init_step_and_side(&rdr, game);
+		perfom_dda(&rdr, game);
+		calculate_draw_params(&rdr);
+		calculate_texture_and_draw_wall(&rdr, game);
+		rdr.x++;
 	}
-	mlx_put_image_to_window(game->mlx, game->win, game->mini_map.img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
+	key(game);
+	draw_minimap(game);
+	return (0);
 }

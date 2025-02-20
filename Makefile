@@ -30,7 +30,9 @@ WHITE = \033[0;97m
 
 
 
-SRC_FILES	=	utils parsing map_parsing texture image rendering input exit main
+SRC_FILES	=	draw_game draw_minimap exit image input main map_padding \
+				map_parsing map_setup map_validator move parsing player_setup \
+				rendering texture utils
 
 
 SRCS 		= 	$(addprefix $(SRCS_DIR), $(addsuffix .c, $(SRC_FILES)))
