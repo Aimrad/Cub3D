@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 16:58:58 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/19 18:21:34 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 17:36:40 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static void	draw_floor(t_render rdr, t_game *game)
 
 void	draw_background(t_render rdr, t_game *game)
 {
-	rdr.floor_color = create_rgb(game->config->floor_color[0], \
-		game->config->floor_color[1], game->config->floor_color[2]);
-	rdr.ceiling_color = create_rgb(game->config->ceiling_color[0], \
-		game->config->ceiling_color[1], game->config->ceiling_color[2]);
+	rdr.floor_color = create_rgb(game->config.floor_color[0], \
+		game->config.floor_color[1], game->config.floor_color[2]);
+	rdr.ceiling_color = create_rgb(game->config.ceiling_color[0], \
+		game->config.ceiling_color[1], game->config.ceiling_color[2]);
 	draw_ceiling(rdr, game);
 	draw_floor(rdr, game);
 }

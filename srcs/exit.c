@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:48:09 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/17 16:24:30 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 18:31:19 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 int	exit_game(t_game *game)
 {
 	free_split(game->grid);
-	free(game->config->texture_no);
-	free(game->config->texture_so);
-	free(game->config->texture_we);
-	free(game->config->texture_ea);
-	free(game->config);
+	free(game->config.texture_no);
+	free(game->config.texture_so);
+	free(game->config.texture_we);
+	free(game->config.texture_ea);
 	mlx_destroy_image(game->mlx, game->texture[0].img);
 	mlx_destroy_image(game->mlx, game->texture[1].img);
 	mlx_destroy_image(game->mlx, game->texture[2].img);

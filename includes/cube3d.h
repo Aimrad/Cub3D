@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/19 18:00:16 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 17:41:20 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef struct s_game
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
-	t_config	*config;
+	t_config	config;
 	t_texture	texture[6];
 	t_img		img;
 	t_img		mini_map;
@@ -135,7 +135,7 @@ void		print_char(char **split);
 void		free_split(char **split);
 void		error_exit(char *msg, int flags);
 int			create_rgb(int r, int g, int b);
-void		calculate_texture_and_draw_wall(t_render rdr, t_game *game);
+void		calculate_texture_and_draw_wall(t_render *rdr, t_game *game);
 
 // # ====================================================== #
 // |														|
@@ -145,9 +145,9 @@ void		calculate_texture_and_draw_wall(t_render rdr, t_game *game);
 
 char		*read_file(const char *filename);
 int			checking_identifier(char *line);
-int			checking_identifier_args(char *line, int *count, t_config **config);
+int			checking_identifier_args(char *line, int *count, t_config *config);
 int			checking_map_element(char *line, int *count_elem, \
-			t_config **config);
+			t_config *config);
 
 // # ====================================================== #
 // |														|
@@ -155,8 +155,8 @@ int			checking_map_element(char *line, int *count_elem, \
 // |														|
 // # ====================================================== #
 
-char		*check_error(char *file_content, t_config **config);
-t_game		*parse_map(char *map_section, t_config *config);
+char		*check_error(char *file_content, t_config *config);
+t_game		*parse_map(char *map_section, t_config config);
 
 // # ====================================================== #
 // |														|
@@ -195,7 +195,7 @@ void		init_player_and_check_walls(t_game *map);
 
 t_map_info	validate_map_section(char *map_section);
 int			validate_elements(char **lines, int *count_element, \
-			t_config **config);
+			t_config *config);
 bool		is_valid_map_char(char c);
 bool		is_player_char(char c);
 bool		is_valid_map_line(char *line);

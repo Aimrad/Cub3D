@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:41:34 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/19 16:19:23 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 17:05:28 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ t_map_info	validate_map_section(char *map_section)
 	return (info);
 }
 
-int	validate_elements(char **lines, int *count_element, t_config **config)
+int	validate_elements(char **lines, int *count_element, t_config *config)
 {
 	int	i;
 
 	i = 0;
-	count_element = 0;
+	*count_element = 0;
 	while (lines[i])
 	{
 		if (is_valid_map_line(lines[i]))

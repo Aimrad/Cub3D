@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:41:10 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/18 20:48:05 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 18:36:25 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*find_map_location(char **lines)
 	return (map_location);
 }
 
-char	*check_error(char *file_content, t_config **config)
+char	*check_error(char *file_content, t_config *config)
 {
 	char	**lines;
 	char	*map_location;
@@ -110,12 +110,10 @@ static char	**split_map_lines(char *map_section, int num_lines)
 	return (context.lines);
 }
 
-t_game	*parse_map(char *map_section, t_config *config)
+t_game	*parse_map(char *map_section, t_config config)
 {
 	t_map_info	info;
 	t_game		*map;
-	int			y;
-	int			x;
 
 	map = malloc(sizeof(t_game));
 	if (!map)

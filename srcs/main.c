@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:42:26 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/19 18:29:20 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 19:09:04 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*read_file(const char *filename)
 	char	*temp;
 	int		len;
 	char	*content;
+	char	*new_content;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
@@ -29,8 +30,10 @@ char	*read_file(const char *filename)
 	temp = get_next_line(fd, 0);
 	while (temp)
 	{
-		content = ft_strjoin(content, temp);
+		new_content = ft_strjoin(content, temp);
+		free(content);
 		free(temp);
+		content = new_content;
 		temp = get_next_line(fd, 0);
 	}
 	close(fd);
@@ -40,23 +43,28 @@ char	*read_file(const char *filename)
 	return (content);
 }
 
+void	initialize_game(t_game *game)
+{
+	game->mlx = mlx_init();
+	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D");
+	load_all_texture(game);
+	init_image(game);
+	mlx_hook(game->win, 17, 1L << 17, exit_game, game);
+	mlx_hook(game->win, 2, 1L << 0, key_press, game);
+	mlx_loop_hook(game->mlx, render, game);
+	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+}
+
 int	main(int argc, char **argv)
 {
 	char		*file_content;
 	char		*map_section;
 	t_game		*map;
-	t_config	*config;
+	t_config	config;
 
 	if (argc != 2)
 		error_exit("Error\nUsage: ./cub3d <fichier .cub>\n", 1);
 	file_content = read_file(argv[1]);
-	config = malloc(sizeof(t_config));
-	if (!config)
-	{
-		free(file_content);
-		exit(EXIT_FAILURE);
-	}
-	ft_memset(config, 0, sizeof(t_config));
 	map_section = ft_strstr(file_content, check_error(file_content, &config));
 	if (!map_section)
 	{
@@ -70,14 +78,7 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	free(file_content);
-	map->mlx = mlx_init();
-	map->win = mlx_new_window(map->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D");
-	load_all_texture(map);
-	init_image(map);
-	mlx_hook(map->win, 17, 1L << 17, exit_game, map);
-	mlx_hook(map->win, 2, 1L << 0, key_press, map);
-	mlx_loop_hook(map->mlx, render, map);
-	mlx_hook(map->win, 3, 1L << 1, key_release, map);
+	initialize_game(map);
 	mlx_loop(map->mlx);
 	return (0);
 }

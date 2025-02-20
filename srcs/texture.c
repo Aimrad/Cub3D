@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:42:38 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/19 17:59:46 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 17:48:20 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	load_texture(t_game *game, t_texture *tex, char *path)
 
 void	load_all_texture(t_game *game)
 {
-	load_texture(game, &game->texture[0], game->config->texture_no);
-	load_texture(game, &game->texture[1], game->config->texture_so);
-	load_texture(game, &game->texture[2], game->config->texture_we);
-	load_texture(game, &game->texture[3], game->config->texture_ea);
+	load_texture(game, &game->texture[0], game->config.texture_no);
+	load_texture(game, &game->texture[1], game->config.texture_so);
+	load_texture(game, &game->texture[2], game->config.texture_we);
+	load_texture(game, &game->texture[3], game->config.texture_ea);
 }
 
 int	get_texture_index(int side, double ray_dir_x, double ray_dir_y)
@@ -57,9 +57,9 @@ int	get_texture_index(int side, double ray_dir_x, double ray_dir_y)
 
 int	parse_color(char *line, int *i)
 {
-	int	j;
-	int	rgb;
-	int	value;
+	int		j;
+	char	*rgb;
+	int		value;
 
 	j = 0;
 	while (line[*i] && line[*i] != ',')

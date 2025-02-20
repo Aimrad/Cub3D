@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:38:33 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/19 17:59:36 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/20 17:34:46 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,28 @@ int	checking_identifier(char *line)
 	i = 2;
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
-	if ((ft_strstr(line + i, "NO")) || (ft_strstr(line + i, "SO"))
-		|| (ft_strstr(line + i, "WE")) || (ft_strstr(line + i, "WE"))
-		|| (ft_strstr(line + i, "EA")) || (ft_strstr(line + i, "F"))
-		|| (ft_strstr(line + i, "C")))
+	if (ft_strstr(line + i, "NO") || ft_strstr(line + i, "SO")
+		|| ft_strstr(line + i, "WE") || ft_strstr(line + i, "WE")
+		|| ft_strstr(line + i, "EA") || ft_strstr(line + i, "F")
+		|| ft_strstr(line + i, "C"))
 		return (error_exit("Error\nDouble identifiant trouvé\n", 0), 1);
 	return (0);
 }
 
-static void	handle_texture(char *line, int *i, int *count, char **texture)
+static int	handle_texture(char *line, int *i, int *count, char **texture)
 {
 	int	fd;
-
-	*i += 2;
+	
+	(*i) += 2;
 	++(*count);
 	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
-		i++;
+		(*i)++;
 	fd = open(line + *i, O_RDONLY);
 	if (!line[*i] || fd < 0)
 		return (error_exit("Error\nPath : invalide\n", 0), 1);
 	*texture = ft_strdup(line + *i);
 	close(fd);
+	return (0);
 }
 
 static int	handle_color(char *line, int *i, int *count, int *color)
@@ -58,7 +59,7 @@ static int	handle_color(char *line, int *i, int *count, int *color)
 	int		count_num;
 	int		count_comma;
 
-	count_num = -1;
+	count_num = 0;
 	count_comma = 0;
 	*i += 1;
 	++(*count);
@@ -68,8 +69,8 @@ static int	handle_color(char *line, int *i, int *count, int *color)
 		return (error_exit("Error\nPas d'argument color\n", 0), 1);
 	while (line[*i])
 	{
-		color[++count_num] = parse_color(line, i);
-		if (color[count_num] == -1)
+		color[count_num] = parse_color(line, i);
+		if (color[count_num++] == -1)
 			return (1);
 		if (line[*i] == ',')
 		{
@@ -82,27 +83,27 @@ static int	handle_color(char *line, int *i, int *count, int *color)
 	return (0);
 }
 
-int	checking_identifier_args(char *line, int *count, t_config **config)
+int	checking_identifier_args(char *line, int *count, t_config *config)
 {
 	int		i;
 
 	i = 0;
 	if (line[i] == 'N' && line[i + 1] == 'O')
-		handle_texture(line, &i, count, &(*config)->texture_no);
+		return (handle_texture(line, &i, count, &(config)->texture_no));
 	else if (line[i] == 'S' && line[i + 1] == 'O')
-		handle_texture(line, &i, count, &(*config)->texture_so);
+		return (handle_texture(line, &i, count, &(config)->texture_so));
 	else if (line[i] == 'W' && line[i + 1] == 'E')
-		handle_texture(line, &i, count, &(*config)->texture_we);
+		return (handle_texture(line, &i, count, &(config)->texture_we));
 	else if (line[i] == 'E' && line[i + 1] == 'A')
-		handle_texture(line, &i, count, &(*config)->texture_ea);
+		return (handle_texture(line, &i, count, &(config)->texture_ea));
 	if (line[i] == 'F')
-		return (handle_color(line, &i, count, (*config)->floor_color));
+		return (handle_color(line, &i, count, config->floor_color));
 	else if (line[i] == 'C')
-		return (handle_color(line, &i, count, (*config)->ceiling_color));
+		return (handle_color(line, &i, count, config->ceiling_color));
 	return (0);
 }
 
-int	checking_map_element(char *line, int *count_elem, t_config **config)
+int	checking_map_element(char *line, int *count_elem, t_config *config)
 {
 	int		i;
 
