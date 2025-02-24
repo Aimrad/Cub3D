@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:38:33 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/20 17:34:46 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/24 16:09:04 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	checking_identifier(char *line)
 		|| (line[i] == 'E' && line[i + 1] != 'A')
 		|| (line[i] == 'F' && line[i + 1] != ' ')
 		|| (line[i] == 'C' && line[i + 1] != ' '))
-		return (error_exit("Error\nIdentifiant incorrect C\n", 0), 1);
+		return (error_exit("Error\nIdentifiant incorrect\n", 0), 1);
 	i = 2;
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
@@ -114,6 +114,16 @@ int	checking_map_element(char *line, int *count_elem, t_config *config)
 		return (0);
 	if (checking_identifier(line) == 1
 		|| checking_identifier_args(line, count_elem, config) == 1)
+	{
+		if (config->texture_no != NULL)
+			free(config->texture_no);
+		if (config->texture_ea != NULL)
+			free(config->texture_ea);
+		if (config->texture_so != NULL)
+			free(config->texture_so);
+		if (config->texture_we != NULL)
+			free(config->texture_we);	
 		return (1);
+	}
 	return (0);
 }
