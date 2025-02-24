@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:42:26 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/20 19:09:04 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/24 16:10:28 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		error_exit("Error\nUsage: ./cub3d <fichier .cub>\n", 1);
 	file_content = read_file(argv[1]);
+	ft_memset(&config, 0, sizeof(t_config));
 	map_section = ft_strstr(file_content, check_error(file_content, &config));
 	if (!map_section)
 	{

@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/20 17:41:20 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/21 17:27:53 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define ROTATE_LEFT 65361
 # define ROTATE_RIGHT 65363
 # define ESC 65307
-# define MOVE_SPEED 0.1
+# define MOVE_SPEED 0.05
 # define ROT_SPEED 0.05
 
 typedef struct s_config
