@@ -73,6 +73,6 @@ int	parse_color(char *line, int *i)
 	value = (int)ft_atoi(rgb);
 	free(rgb);
 	if (value < 0 || value > 255)
-		return (error_exit("Error\nColor args: 0-255\n", 0), free(rgb), -1);
+		return (error_exit("Error\nColor args: 0-255\n", 0), -1);
 	return (value);
 }

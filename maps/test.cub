@@ -1,7 +1,7 @@
-NO ./textures/eagle.xpm
-SO ./textures/greystone.xpm
-WE ./textures/purplestone.xpm
-EA ./textures/red.xpm
+NO texture/eagle.xpm
+SO texture/greystone.xpm
+WEWE texture/purplestone.xpm
+EA texture/red.xpm
 
 F 220,100,0
 C 225,30,0

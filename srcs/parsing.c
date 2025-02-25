@@ -30,10 +30,7 @@ int	checking_identifier(char *line)
 	i = 2;
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
-	if (ft_strstr(line + i, "NO") || ft_strstr(line + i, "SO")
-		|| ft_strstr(line + i, "WE") || ft_strstr(line + i, "WE")
-		|| ft_strstr(line + i, "EA") || ft_strstr(line + i, "F")
-		|| ft_strstr(line + i, "C"))
+	if (ft_strlen(line + i) != 2)
 		return (error_exit("Error\nDouble identifiant trouvé\n", 0), 1);
 	return (0);
 }
