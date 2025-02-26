@@ -12,27 +12,30 @@
 
 #include "cube3d.h"
 
-int	checking_identifier(char *line)
+int    checking_identifier(char *line)
 {
-	int		i;
+    int        i;
 
-	i = 0;
-	if (line[i] != 'N' && line[i] != 'S' && line[i] != 'W' && line[i] != 'E'
-		&& line[i] != 'F' && line[i] != 'C')
-		return (error_exit("Error\nL'identifiant est introuvable\n", 0), 1);
-	if ((line[i] == 'N' && line[i + 1] != 'O')
-		|| (line[i] == 'S' && line[i + 1] != 'O')
-		|| (line[i] == 'W' && line[i + 1] != 'E')
-		|| (line[i] == 'E' && line[i + 1] != 'A')
-		|| (line[i] == 'F' && line[i + 1] != ' ')
-		|| (line[i] == 'C' && line[i + 1] != ' '))
-		return (error_exit("Error\nIdentifiant incorrect\n", 0), 1);
-	i = 2;
-	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
-		i++;
-	if (ft_strlen(line + i) != 2)
-		return (error_exit("Error\nDouble identifiant trouvé\n", 0), 1);
-	return (0);
+    i = 0;
+    if (line[i] != 'N' && line[i] != 'S' && line[i] != 'W' && line[i] != 'E'
+        && line[i] != 'F' && line[i] != 'C')
+        return (error_exit("Error\nL'identifiant est introuvable\n", 0), 1);
+    if ((line[i] == 'N' && line[i + 1] != 'O')
+        || (line[i] == 'S' && line[i + 1] != 'O')
+        || (line[i] == 'W' && line[i + 1] != 'E')
+        || (line[i] == 'E' && line[i + 1] != 'A')
+        || (line[i] == 'F' && line[i + 1] != ' ')
+        || (line[i] == 'C' && line[i + 1] != ' '))
+        return (error_exit("Error\nIdentifiant incorrect\n", 0), 1);
+    i = 2;
+    while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+        i++;
+    if (ft_strstr(line + i, "NO") || ft_strstr(line + i, "SO")
+        || ft_strstr(line + i, "WE") || ft_strstr(line + i, "WE")
+        || ft_strstr(line + i, "EA") || ft_strstr(line + i, "F")
+        || ft_strstr(line + i, "C"))
+        return (error_exit("Error\nDouble identifiant trouvé\n", 0), 1);
+    return (0);
 }
 
 static int	handle_texture(char *line, int *i, int *count, char **texture)
@@ -64,8 +67,7 @@ static int	handle_color(char *line, int *i, int *count, int *color)
 		(*i)++;
 	if (!line[*i])
 		return (error_exit("Error\nPas d'argument color\n", 0), 1);
-	while (line[*i])
-	{
+	while (line[*i]){
 		color[count_num] = parse_color(line, i);
 		if (color[count_num++] == -1)
 			return (1);

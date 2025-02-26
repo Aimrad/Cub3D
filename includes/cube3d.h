@@ -17,6 +17,9 @@
 # include <math.h>
 # include "libft.h"
 # include "mlx.h"
+#include <X11/X.h>
+#include <X11/keysym.h>
+
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
@@ -28,7 +31,10 @@
 # define ROTATE_RIGHT 65363
 # define ESC 65307
 # define MOVE_SPEED 0.05
-# define ROT_SPEED 0.05
+# define ROT_SPEED 0.06
+# define MOUSE_BALANCE 0.2
+# define TRUE 1
+# define FALSE 0
 
 typedef struct s_config
 {
@@ -111,8 +117,9 @@ typedef struct s_game
 	int			s;
 	int			q;
 	int			d;
-	int			rotate_left;
-	int			rotate_right;
+	int			rotate;
+	int			win_width;
+	int			win_height;
 	double		pos_x;
 	double		pos_y;
 	double		dir_x;
@@ -247,8 +254,7 @@ int			render(t_game *map);
 
 void		forward_back(t_game *game);
 void		right_left(t_game *game);
-void		rotate_left(t_game *game);
-void		rotate_right(t_game *game);
+void		rotate_player(t_game *game, double rotdir, int mouse);
 
 // # ====================================================== #
 // |														|
@@ -259,6 +265,7 @@ void		rotate_right(t_game *game);
 void		key(t_game *game);
 int			key_press(int keycode, t_game *game);
 int			key_release(int keycode, t_game *game);
+int			mouse_motion_handler(int x, int y, t_game *game);
 
 // # ====================================================== #
 // |														|

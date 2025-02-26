@@ -63,41 +63,32 @@ void	right_left(t_game *game)
 	}
 }
 
-void	rotate_left(t_game *game)
+static void	rotate_left_right(t_game *game, double rotspeed)
 {
-	double	old_dir_x;
-	double	old_plane_x;
+	double		tmp_x;
 
-	if (game->rotate_left == 1)
-	{
-		old_dir_x = game->dir_x;
-		game->dir_x = game->dir_x * cos(-ROT_SPEED) - game->dir_y \
-		* sin(-ROT_SPEED);
-		game->dir_y = old_dir_x * sin(-ROT_SPEED) + game->dir_y \
-		* cos(-ROT_SPEED);
-		old_plane_x = game->plane_x;
-		game->plane_x = game->plane_x * cos(-ROT_SPEED) - game->plane_y \
-		* sin(-ROT_SPEED);
-		game->plane_y = old_plane_x * sin(-ROT_SPEED) + game->plane_y \
-		* cos(-ROT_SPEED);
+	if (game->rotate != 0) {
+		tmp_x = game->dir_x;
+		game->dir_x = game->dir_x * cos(rotspeed) - game->dir_y * sin(rotspeed);
+		game->dir_y = tmp_x * sin(rotspeed) + game->dir_y * cos(rotspeed);
+		tmp_x = game->plane_x;
+		game->plane_x = game->plane_x * cos(rotspeed) - game->plane_y * sin(rotspeed);
+		game->plane_y = tmp_x * sin(rotspeed) + game->plane_y * cos(rotspeed);
 	}
 }
 
-void	rotate_right(t_game *game)
+void	rotate_player(t_game *game, double rotdir, int mouse)
 {
-	double	old_dir_x;
-	double	old_plane_x;
+	double	rotspeed;
 
-	if (game->rotate_right == 1)
-	{
-		old_dir_x = game->dir_x;
-		game->dir_x = game->dir_x * cos(ROT_SPEED) - game->dir_y \
-		* sin(ROT_SPEED);
-		game->dir_y = old_dir_x * sin(ROT_SPEED) + game->dir_y * cos(ROT_SPEED);
-		old_plane_x = game->plane_x;
-		game->plane_x = game->plane_x * cos(ROT_SPEED) - game->plane_y \
-		* sin(ROT_SPEED);
-		game->plane_y = old_plane_x * sin(ROT_SPEED) + game->plane_y \
-		* cos(ROT_SPEED);
+	if (game->rotate < 0)
+		rotspeed = -ROT_SPEED * rotdir;
+	else 
+		rotspeed = ROT_SPEED * rotdir;
+	if (mouse) {
+		// rotspeed = ROT_SPEED * rotdir;
+		rotspeed *= MOUSE_BALANCE;
 	}
+	printf("rotate: %d\n", game->rotate);
+	rotate_left_right(game, rotspeed);
 }

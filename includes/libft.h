@@ -19,6 +19,7 @@
 # include <stddef.h>
 # include <string.h>
 # include <assert.h>
+# include <errno.h> // suppre
 # include <fcntl.h>
 # include "ft_printf.h"
 # include "get_next_line.h"
