@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:37:46 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 16:18:51 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 17:33:13 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**split_texture(char *line, int *i)
 
 static int	free_path(char ***texture, char **tex_tab, int j, char *msg)
 {
-	while (j >= 0)
+	while (j > 0)
 	{
 		free((*texture)[j]);
 		j--;
