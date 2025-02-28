@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:38:33 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/24 16:09:04 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 16:52:24 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,25 @@ int    checking_identifier(char *line)
     return (0);
 }
 
-static int	handle_texture(char *line, int *i, int *count, char **texture)
+static int	handle_texture(char *line, int *i, int *count, char ***texture)
 {
-	int	fd;
-	
+	int		nb_tex;
+	char	**texture_tab;
+
 	(*i) += 2;
 	++(*count);
-	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
-		(*i)++;
-	fd = open(line + *i, O_RDONLY);
-	if (!line[*i] || fd < 0)
-		return (error_exit("Error\nPath : invalide\n", 0), 1);
-	*texture = ft_strdup(line + *i);
-	close(fd);
+	nb_tex = count_texture(line, i);
+	if (alloc_texture_char(texture, nb_tex))
+		return (1);
+	texture_tab = split_texture(line, i);
+	if (!texture_tab)
+	{
+		free(*texture);
+		return (1);
+	}
+	if (parse_texture(texture, texture_tab, nb_tex))
+		return (1);
+	free_split(texture_tab);
 	return (0);
 }
 
@@ -115,13 +121,13 @@ int	checking_map_element(char *line, int *count_elem, t_config *config)
 		|| checking_identifier_args(line, count_elem, config) == 1)
 	{
 		if (config->texture_no != NULL)
-			free(config->texture_no);
+			free_split(config->texture_no);
 		if (config->texture_ea != NULL)
-			free(config->texture_ea);
+			free_split(config->texture_ea);
 		if (config->texture_so != NULL)
-			free(config->texture_so);
+			free_split(config->texture_so);
 		if (config->texture_we != NULL)
-			free(config->texture_we);	
+			free_split(config->texture_we);
 		return (1);
 	}
 	return (0);

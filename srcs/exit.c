@@ -6,23 +6,40 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:48:09 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/20 18:31:19 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 16:47:28 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
+static void	free_texture(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < game->texture[i].frame_count)
+		{
+			mlx_destroy_image(game->mlx, game->texture[i].img[j]);
+			j++;
+		}
+		free(game->texture[i].img);
+		free(game->texture[i].data);
+		i++;
+	}
+}
+
 int	exit_game(t_game *game)
 {
 	free_split(game->grid);
-	free(game->config.texture_no);
-	free(game->config.texture_so);
-	free(game->config.texture_we);
-	free(game->config.texture_ea);
-	mlx_destroy_image(game->mlx, game->texture[0].img);
-	mlx_destroy_image(game->mlx, game->texture[1].img);
-	mlx_destroy_image(game->mlx, game->texture[2].img);
-	mlx_destroy_image(game->mlx, game->texture[3].img);
+	free_split(game->config.texture_no);
+	free_split(game->config.texture_so);
+	free_split(game->config.texture_we);
+	free_split(game->config.texture_ea);
+	free_texture(game);
 	mlx_destroy_image(game->mlx, game->img.img);
 	mlx_destroy_image(game->mlx, game->mini_map.img);
 	mlx_destroy_window(game->mlx, game->win);

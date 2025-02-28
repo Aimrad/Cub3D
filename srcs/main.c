@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:42:26 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/24 16:10:28 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 16:51:27 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*read_file(const char *filename)
 		error_exit("Error\nImpossible d'ouvrir le fichier\n", 1);
 	len = ft_strlen(filename);
 	if (len < 4 || ft_strncmp(filename + len - 4, ".cub", 4))
-		error_exit("Error\nLe fichier doit Ãªtre un .cub\n", 1);
+		error_exit("Error\nLe fichier doit être un .cub\n", 1);
 	content = read_join_file(fd);
 	close(fd);
 	get_next_line(fd, 1);
@@ -65,6 +65,22 @@ void	initialize_game(t_game *game)
 	mlx_mouse_move(game->mlx, game->win, game->win_width / 2,
 		game->win_height / 2);
 	mlx_hook(game->win, MotionNotify, PointerMotionMask, mouse_motion_handler, game);
+}
+
+static char	*get_map_section(char *file_content, t_config *config)
+{
+	char	*temp;
+	char	*map_section;
+
+	temp = check_error(file_content, config);
+	map_section = ft_strstr(file_content, temp);
+	if (!map_section)
+	{
+		free(file_content);
+		exit(EXIT_FAILURE);
+	}
+	free(temp);
+	return (map_section);
 }
 
 static char	*get_map_section(char *file_content, t_config *config)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering->c                                        :+:      :+:    :+:   */
+/*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: artheon <artheon@student->42->fr>            +#+  +:+       +#+        */
+/*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 14:45:05 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/20 17:39:13 by artheon          ###   ########->fr       */
+/*   Created: 2025/02/26 17:34:38 by artheon           #+#    #+#             */
+/*   Updated: 2025/02/28 16:52:49 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	render(t_game *game)
 {
 	t_render	rdr;
 
+	update_texture_frame(game);
 	clear_image(game);
 	draw_background(rdr, game);
 	rdr.x = 0;

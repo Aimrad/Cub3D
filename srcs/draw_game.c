@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 16:58:58 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/20 17:36:40 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 16:46:53 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,22 @@ void	draw_background(t_render rdr, t_game *game)
 		game->config.ceiling_color[1], game->config.ceiling_color[2]);
 	draw_ceiling(rdr, game);
 	draw_floor(rdr, game);
+}
+
+void	update_texture_frame(t_game *game)
+{
+	static int	frame_timer = 0;
+	int			i;
+
+	i = 0;
+	frame_timer++;
+	if (frame_timer < 10)
+		return ;
+	frame_timer = 0;
+	while (i < 4)
+	{
+		game->texture[i].current_frame = (game->texture[i].current_frame + 1) % \
+		game->texture[i].frame_count;
+		i++;
+	}
 }

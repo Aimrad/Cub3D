@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/21 17:27:53 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 16:43:34 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ typedef struct s_config
 
 typedef struct s_texture
 {
-	void	*img;
-	int		*data;
+	void	**img;
+	int		frame_count;
+	int		current_frame;
+	int		**data;
 	int		width;
 	int		height;
 }	t_texture;
@@ -94,6 +96,7 @@ typedef struct s_render
 	int			color;
 	int			floor_color;
 	int			ceiling_color;
+	int			*curr_data;
 }	t_render;
 
 typedef struct s_map_info
@@ -155,6 +158,10 @@ int			checking_identifier(char *line);
 int			checking_identifier_args(char *line, int *count, t_config *config);
 int			checking_map_element(char *line, int *count_elem, \
 			t_config *config);
+int			count_texture(char *line, int *i);
+int			alloc_texture_char(char ***texture, int nb_tex);
+char		**split_texture(char *line, int *i);
+int			parse_texture(char ***texture, char **texture_tab, int nb_tex);
 
 // # ====================================================== #
 // |														|
@@ -237,6 +244,7 @@ void		clear_image(t_game *game);
 
 void		draw_background(t_render rdr, t_game *game);
 void		draw_minimap(t_game *game);
+void		update_texture_frame(t_game *game);
 
 // # ====================================================== #
 // |														|
