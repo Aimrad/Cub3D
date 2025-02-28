@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:42:26 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/26 22:48:45 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 16:51:27 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,25 @@ void	initialize_game(t_game *game)
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_loop_hook(game->mlx, render, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_mouse_move(game->mlx, game->win, game->win_width / 2,
+		game->win_height / 2);
+	mlx_hook(game->win, MotionNotify, PointerMotionMask, mouse_motion_handler, game);
+}
+
+static char	*get_map_section(char *file_content, t_config *config)
+{
+	char	*temp;
+	char	*map_section;
+
+	temp = check_error(file_content, config);
+	map_section = ft_strstr(file_content, temp);
+	if (!map_section)
+	{
+		free(file_content);
+		exit(EXIT_FAILURE);
+	}
+	free(temp);
+	return (map_section);
 }
 
 static char	*get_map_section(char *file_content, t_config *config)

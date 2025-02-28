@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 16:17:11 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 16:43:34 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <math.h>
 # include "libft.h"
 # include "mlx.h"
+#include <X11/X.h>
+#include <X11/keysym.h>
+
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
@@ -28,14 +31,17 @@
 # define ROTATE_RIGHT 65363
 # define ESC 65307
 # define MOVE_SPEED 0.05
-# define ROT_SPEED 0.05
+# define ROT_SPEED 0.06
+# define MOUSE_BALANCE 0.2
+# define TRUE 1
+# define FALSE 0
 
 typedef struct s_config
 {
-	char	**texture_no;
-	char	**texture_so;
-	char	**texture_we;
-	char	**texture_ea;
+	char	*texture_no;
+	char	*texture_so;
+	char	*texture_we;
+	char	*texture_ea;
 	int		floor_color[3];
 	int		ceiling_color[3];
 }	t_config;
@@ -114,8 +120,9 @@ typedef struct s_game
 	int			s;
 	int			q;
 	int			d;
-	int			rotate_left;
-	int			rotate_right;
+	int			rotate;
+	int			win_width;
+	int			win_height;
 	double		pos_x;
 	double		pos_y;
 	double		dir_x;
@@ -213,7 +220,7 @@ bool		is_valid_map_line(char *line);
 // |														|
 // # ====================================================== #
 
-void		load_texture(t_game *game, t_texture *tex, char **path);
+void		load_texture(t_game *game, t_texture *tex, char *path);
 void		load_all_texture(t_game *game);
 int			get_texture_index(int side, double ray_dir_x, double ray_dir_y);
 int			parse_color(char *line, int *i);
@@ -255,8 +262,7 @@ int			render(t_game *map);
 
 void		forward_back(t_game *game);
 void		right_left(t_game *game);
-void		rotate_left(t_game *game);
-void		rotate_right(t_game *game);
+void		rotate_player(t_game *game, double rotdir, int mouse);
 
 // # ====================================================== #
 // |														|
@@ -267,6 +273,7 @@ void		rotate_right(t_game *game);
 void		key(t_game *game);
 int			key_press(int keycode, t_game *game);
 int			key_release(int keycode, t_game *game);
+int			mouse_motion_handler(int x, int y, t_game *game);
 
 // # ====================================================== #
 // |														|
