@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:38:33 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 16:52:24 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 17:36:43 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,16 +119,6 @@ int	checking_map_element(char *line, int *count_elem, t_config *config)
 		return (0);
 	if (checking_identifier(line) == 1
 		|| checking_identifier_args(line, count_elem, config) == 1)
-	{
-		if (config->texture_no != NULL)
-			free_split(config->texture_no);
-		if (config->texture_ea != NULL)
-			free_split(config->texture_ea);
-		if (config->texture_so != NULL)
-			free_split(config->texture_so);
-		if (config->texture_we != NULL)
-			free_split(config->texture_we);
 		return (1);
-	}
 	return (0);
 }

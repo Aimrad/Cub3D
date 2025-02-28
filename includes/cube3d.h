@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 16:43:34 by artheon          ###   ########.fr       */
+/*   Updated: 2025/02/28 17:26:17 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@
 
 typedef struct s_config
 {
-	char	*texture_no;
-	char	*texture_so;
-	char	*texture_we;
-	char	*texture_ea;
+	char	**texture_no;
+	char	**texture_so;
+	char	**texture_we;
+	char	**texture_ea;
 	int		floor_color[3];
 	int		ceiling_color[3];
 }	t_config;
@@ -220,7 +220,7 @@ bool		is_valid_map_line(char *line);
 // |														|
 // # ====================================================== #
 
-void		load_texture(t_game *game, t_texture *tex, char *path);
+void		load_texture(t_game *game, t_texture *tex, char **path);
 void		load_all_texture(t_game *game);
 int			get_texture_index(int side, double ray_dir_x, double ray_dir_y);
 int			parse_color(char *line, int *i);
