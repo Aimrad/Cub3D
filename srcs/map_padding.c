@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:18:59 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 17:14:09 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/04 16:39:10 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,32 @@ static void	pad_lines(t_game *map, int len, int y)
 	ft_memcpy(new_line, map->grid[y], len);
 	free(map->grid[y]);
 	map->grid[y] = new_line;
+}
+
+int	check_map(t_game *map)
+{
+	int	y;
+	int	x;
+	int	len;
+
+	y = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		len = (int)ft_strlen(map->grid[y]);
+		while (x < len)
+		{
+			if (map->grid[y][x] != '1' && (y == 0 || y == map->height - 1 \
+				|| x == 0 || x == len - 1))
+			{
+				handle_error(map, "La carte doit être entourée de murs.\n");
+				return (1);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (0);
 }
 
 void	pad_map_lines(t_game *map)

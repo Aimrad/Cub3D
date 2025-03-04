@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:41:10 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 17:14:05 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/04 16:46:20 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ t_game	*parse_map(char *map_section, t_config config)
 	map->grid = split_map_lines(map_section, info.num_lines);
 	if (!map->grid)
 		return (error_exit("Allocation mémoire échoué\n", 0), free(map), NULL);
+	if (check_map(map))
+		return (NULL);
 	pad_map_lines(map);
 	init_player_and_check_walls(map);
 	return (map);
