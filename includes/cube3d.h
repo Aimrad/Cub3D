@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 17:26:17 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/04 16:44:22 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 # include <math.h>
 # include "libft.h"
 # include "mlx.h"
-#include <X11/X.h>
-#include <X11/keysym.h>
-
+# include <X11/X.h>
+# include <X11/keysym.h>
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
@@ -213,6 +212,7 @@ int			validate_elements(char **lines, int *count_element, \
 bool		is_valid_map_char(char c);
 bool		is_player_char(char c);
 bool		is_valid_map_line(char *line);
+int			check_map(t_game *map);
 
 // # ====================================================== #
 // |														|

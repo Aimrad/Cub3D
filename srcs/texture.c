@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:42:38 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 17:13:22 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/04 17:24:06 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,6 @@ int	parse_color(char *line, int *i)
 	value = (int)ft_atoi(rgb);
 	free(rgb);
 	if (value < 0 || value > 255)
-		return (error_exit("Error\nColor args: 0-255\n", 0), free(rgb), -1);
+		return (error_exit("Error\nColor args: 0-255\n", 0), -1);
 	return (value);
 }

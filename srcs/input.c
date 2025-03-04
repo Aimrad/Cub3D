@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:46:20 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/17 17:30:57 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/04 16:45:56 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	key_release(int keycode, t_game *game)
 	return (0);
 }
 
-static void	wrap_mouse_position(t_game *game, int x, int y) {
+static void	wrap_mouse_position(t_game *game, int x, int y)
+{
 	if (x > game->win_width - 20)
 	{
 		x = 20;
@@ -68,19 +69,23 @@ static void	wrap_mouse_position(t_game *game, int x, int y) {
 	}
 }
 
-int	mouse_motion_handler(int x, int y, t_game *game) {
+int	mouse_motion_handler(int x, int y, t_game *game)
+{
 	static int	old_x = SCREEN_WIDTH / 2;
 
 	wrap_mouse_position(game, x, y);
-	if (x == old_x) {
+	if (x == old_x)
+	{
 		game->rotate = 0;
 		return (0);
 	}
-	else if (x < old_x) {	
+	else if (x < old_x)
+	{
 		game->rotate = 1;
 		rotate_player(game, -1, TRUE);
 	}
-	else if (x > old_x) {
+	else if (x > old_x)
+	{
 		game->rotate = 1;
 		rotate_player(game, 1, TRUE);
 	}
