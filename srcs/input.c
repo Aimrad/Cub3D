@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:46:20 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/04 16:45:56 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/05 16:04:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,15 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == Q)
 		game->q = 1;
 	else if (keycode == ROTATE_LEFT)
+	{
 		game->rotate = -1;
+		game->mouse = FALSE;
+	}
 	else if (keycode == ROTATE_RIGHT)
+	{
 		game->rotate = 1;
+		game->mouse = FALSE;
+	}
 	return (0);
 }
 
@@ -49,9 +55,15 @@ int	key_release(int keycode, t_game *game)
 	else if (keycode == Q)
 		game->q = 0;
 	else if (keycode == ROTATE_LEFT && game->rotate < 0)
+	{
+		game->mouse = TRUE;
 		game->rotate = 0;
+	}
 	else if (keycode == ROTATE_RIGHT && game->rotate > 0)
+	{
+		game->mouse = TRUE;
 		game->rotate = 0;
+	}
 	return (0);
 }
 
@@ -74,17 +86,17 @@ int	mouse_motion_handler(int x, int y, t_game *game)
 	static int	old_x = SCREEN_WIDTH / 2;
 
 	wrap_mouse_position(game, x, y);
-	if (x == old_x)
+	if (x == old_x && game->mouse == TRUE)
 	{
 		game->rotate = 0;
 		return (0);
 	}
-	else if (x < old_x)
+	else if (x < old_x && game->mouse == TRUE)
 	{
 		game->rotate = 1;
 		rotate_player(game, -1, TRUE);
 	}
-	else if (x > old_x)
+	else if (x > old_x && game->mouse == TRUE)
 	{
 		game->rotate = 1;
 		rotate_player(game, 1, TRUE);

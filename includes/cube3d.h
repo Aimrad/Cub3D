@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/04 16:44:22 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/05 15:56:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # include <stdbool.h>
 # include <math.h>
-# include "libft.h"
-# include "mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include "libft.h"
+# include "mlx.h"
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
@@ -30,7 +30,7 @@
 # define ROTATE_RIGHT 65363
 # define ESC 65307
 # define MOVE_SPEED 0.05
-# define ROT_SPEED 0.06
+# define ROT_SPEED 0.1
 # define MOUSE_BALANCE 0.2
 # define TRUE 1
 # define FALSE 0
@@ -122,6 +122,7 @@ typedef struct s_game
 	int			rotate;
 	int			win_width;
 	int			win_height;
+	int			mouse;
 	double		pos_x;
 	double		pos_y;
 	double		dir_x;
