@@ -43,6 +43,8 @@ static int	handle_texture(char *line, int *i, int *count, char ***texture)
 	int		nb_tex;
 	char	**texture_tab;
 
+	if (*texture)
+		free_split(*texture);
 	(*i) += 2;
 	++(*count);
 	nb_tex = count_texture(line, i);
@@ -120,6 +122,9 @@ int	checking_map_element(char *line, int *count_elem, t_config *config)
 		return (0);
 	if (checking_identifier(line) == 1
 		|| checking_identifier_args(line, count_elem, config) == 1)
+	{
+		free_checker(config);
 		return (1);
+	}
 	return (0);
 }

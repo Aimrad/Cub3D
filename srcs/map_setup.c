@@ -15,6 +15,10 @@
 void	handle_error(t_game *map, char *msg)
 {
 	free_split(map->grid);
+	free_split(map->config.texture_no);
+	free_split(map->config.texture_so);
+	free_split(map->config.texture_we);
+	free_split(map->config.texture_ea);
 	free(map);
 	error_exit(msg, 0);
 	map = NULL;
@@ -39,12 +43,9 @@ void	init_player_and_check_walls(t_game *map)
 		x = 0;
 		while (x < map->width)
 		{
-			if (map->grid[y][x] != '1' && (y == 0 || y == map->height - 1 \
+			if (map->grid[y][x] != '1' && (y == 0 || y == map->height - 1
 				|| x == 0 || x == map->width - 1))
-			{
-				handle_error(map, "La carte doit être entourée de murs.\n");
 				return ;
-			}
 			if (is_player_char(map->grid[y][x]))
 				check_and_set_player(map, y, x);
 			x++;

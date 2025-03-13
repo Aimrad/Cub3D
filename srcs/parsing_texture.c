@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:37:46 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 17:33:13 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/13 00:22:59 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,17 @@ char	**split_texture(char *line, int *i)
 
 static int	free_path(char ***texture, char **tex_tab, int j, char *msg)
 {
-	while (j > 0)
+	int	i;
+
+	i = 0;
+	while (i < j)
 	{
-		free((*texture)[j]);
+		free((*texture)[i]);
 		j--;
 	}
 	free(*texture);
 	free_split(tex_tab);
+	*texture = NULL;
 	return (error_exit(msg, 0), 1);
 }
 
@@ -69,11 +73,13 @@ int	parse_texture(char ***texture, char **texture_tab, int nb_tex)
 	j = 0;
 	while (j < nb_tex)
 	{
-		trim_whitespace(texture_tab[j]);
+		if (!trim_whitespace(texture_tab[j]))
+			return (free_path(texture, texture_tab, j, \
+				"Error\nTexture introuvable\n"));
 		fd = open(texture_tab[j], O_RDONLY);
 		if (fd < 0)
 			return (free_path(texture, texture_tab, j, \
-				"Error\nTexture introuvable\n"));
+				"Error\nTexture introuvable open\n"));
 		close(fd);
 		(*texture)[j] = ft_strdup(texture_tab[j]);
 		if (!(*texture)[j])

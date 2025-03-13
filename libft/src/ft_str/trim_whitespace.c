@@ -16,10 +16,10 @@ char	*trim_whitespace(char *str)
 {
 	char	*end;
 
+	if (!str || !*str)
+		return (NULL);
 	while (*str == ' ' || *str == '\t')
 		str++;
-	if (!*str)
-		return (NULL);
 	end = str + ft_strlen(str) - 1;
 	while (end > str && (*end == ' ' || *end == '\t'))
 		end--;

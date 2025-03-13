@@ -32,6 +32,30 @@ static void	free_texture(t_game *game)
 	}
 }
 
+void	free_checker(t_config *config)
+{
+	if (config->texture_no)
+	{
+		free_split(config->texture_no);
+		config->texture_no = NULL;
+	}
+	if (config->texture_so)
+	{
+		free_split(config->texture_so);
+		config->texture_so = NULL;
+	}
+	if (config->texture_we)
+	{
+		free_split(config->texture_we);
+		config->texture_we = NULL;
+	}
+	if (config->texture_ea)
+	{
+		free_split(config->texture_ea);
+		config->texture_ea = NULL;
+	}
+}
+
 int	exit_game(t_game *game)
 {
 	free_split(game->grid);

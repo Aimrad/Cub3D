@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:41:10 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/04 16:46:20 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/13 00:48:46 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*check_error(char *file_content, t_config *config)
 			error_exit("Error\nIl manque des elements dans le .cub\n", 0);
 		else
 			error_exit("Error\nUn élément est en trop dans le .cub\n", 0);
-		return (NULL);
+		return (free(map_location), NULL);
 	}
 	if (!map_location)
 		error_exit("Error\nCarte non trouvée dans le fichier.\n", 0);
@@ -124,8 +124,8 @@ t_game	*parse_map(char *map_section, t_config config)
 	ft_memset(map, 0, sizeof(t_game));
 	map->config = config;
 	info = validate_map_section(map_section);
-	if (info.num_lines == 0 || info.num_lines == 0)
-		return (free(map), NULL);
+	if (info.num_lines == 0 || info.player_count != 1)
+		return (free(map), free_checker(&config), NULL);
 	map->height = info.num_lines;
 	map->grid = split_map_lines(map_section, info.num_lines);
 	if (!map->grid)
@@ -134,5 +134,6 @@ t_game	*parse_map(char *map_section, t_config config)
 		return (NULL);
 	pad_map_lines(map);
 	init_player_and_check_walls(map);
+	map->mouse = TRUE;
 	return (map);
 }
