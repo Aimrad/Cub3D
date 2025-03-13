@@ -38,7 +38,7 @@ void	right_left(t_game *game)
 {
 	double	strafe_x;
 	double	strafe_y;
-
+	
 	if (game->d == 1)
 	{
 		strafe_x = -game->dir_y;
