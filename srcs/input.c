@@ -69,14 +69,14 @@ int	key_release(int keycode, t_game *game)
 
 static void	wrap_mouse_position(t_game *game, int x, int y)
 {
-	if (x > game->win_width - 20)
+	if (x > SCREEN_WIDTH - 20)
 	{
 		x = 20;
 		mlx_mouse_move(game->mlx, game->win, x, y);
 	}
 	if (x < 20)
 	{
-		x = game->win_width - 20;
+		x = SCREEN_WIDTH - 20;
 		mlx_mouse_move(game->mlx, game->win, x, y);
 	}
 }
@@ -87,10 +87,7 @@ int	mouse_motion_handler(int x, int y, t_game *game)
 
 	wrap_mouse_position(game, x, y);
 	if (x == old_x && game->mouse == TRUE)
-	{
-		game->rotate = 0;
 		return (0);
-	}
 	else if (x < old_x && game->mouse == TRUE)
 	{
 		game->rotate = 1;
@@ -101,6 +98,7 @@ int	mouse_motion_handler(int x, int y, t_game *game)
 		game->rotate = 1;
 		rotate_player(game, 1, TRUE);
 	}
+	game->rotate = 0;
 	old_x = x;
 	return (0);
 }

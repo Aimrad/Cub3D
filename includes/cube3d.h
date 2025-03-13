@@ -22,8 +22,8 @@
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
-# define Z 122
-# define Q 113
+# define Z 119
+# define Q 97
 # define S 115
 # define D 100
 # define ROTATE_LEFT 65361
@@ -120,8 +120,6 @@ typedef struct s_game
 	int			q;
 	int			d;
 	int			rotate;
-	int			win_width;
-	int			win_height;
 	int			mouse;
 	double		pos_x;
 	double		pos_y;
@@ -283,5 +281,6 @@ int			mouse_motion_handler(int x, int y, t_game *game);
 // # ====================================================== #
 
 int			exit_game(t_game *game);
+void		free_checker(t_config *config);
 
 #endif
