@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/05 15:56:12 by marvin           ###   ########.fr       */
+/*   Updated: 2025/03/13 18:38:23 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,19 @@
 # define MOUSE_BALANCE 0.2
 # define TRUE 1
 # define FALSE 0
+# define MINIMAP_RADIUS 100
+
+typedef struct s_minimap_vars
+{
+	int	px;
+	int	py;
+	int	center;
+	int	scale;
+	int	wx;
+	int	wy;
+	int	screen_x;
+	int	screen_y;
+}	t_minimap_vars;
 
 typedef struct s_config
 {
