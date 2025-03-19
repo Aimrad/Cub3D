@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:38:33 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/04 16:49:12 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:25:00 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,14 @@ int	checking_identifier(char *line)
 		|| (line[i] == 'S' && line[i + 1] != 'O')
 		|| (line[i] == 'W' && line[i + 1] != 'E')
 		|| (line[i] == 'E' && line[i + 1] != 'A')
-		|| (line[i] == 'F' && line[i + 1] != ' ')
-		|| (line[i] == 'C' && line[i + 1] != ' '))
+		|| (line[i] == 'F' && ft_isalpha(line[i + 1]) == 1)
+		|| (line[i] == 'C' && ft_isalpha(line[i + 1]) == 1))
 		return (error_exit("Error\nIdentifiant incorrect\n", 0), 1);
 	i = 2;
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
-	if (ft_strstr(line + i, "NO") || ft_strstr(line + i, "SO")
-		|| ft_strstr(line + i, "WE") || ft_strstr(line + i, "WE")
-		|| ft_strstr(line + i, "EA") || ft_strstr(line + i, "F")
-		|| ft_strstr(line + i, "C"))
+	if (line[i] == 'N' || line[i] == 'S' || line[i] == 'W'
+		|| line[i] == 'E' || line[i] == 'F' || line[i] == 'C')
 		return (error_exit("Error\nDouble identifiant trouvé\n", 0), 1);
 	return (0);
 }
@@ -54,6 +52,7 @@ static int	handle_texture(char *line, int *i, int *count, char ***texture)
 	if (!texture_tab)
 	{
 		free(*texture);
+		*texture = NULL;
 		return (1);
 	}
 	if (parse_texture(texture, texture_tab, nb_tex))

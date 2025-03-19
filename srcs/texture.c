@@ -6,13 +6,13 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:42:38 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/04 17:24:06 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:54:40 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static void	load_single_texture(t_game *game, t_texture *tex, char *path, int i)
+static int	load_single_texture(t_game *game, t_texture *tex, char *path, int i)
 {
 	int		bit_per_pixel;
 	int		line_length;
@@ -23,13 +23,14 @@ static void	load_single_texture(t_game *game, t_texture *tex, char *path, int i)
 	if (!tex->img[i])
 	{
 		printf("Erreur lors du chargement de la texture %s\n", path);
-		exit(EXIT_FAILURE);
+		return (1);
 	}
 	tex->data[i] = (int *)mlx_get_data_addr(tex->img[i], &bit_per_pixel, \
 		&line_length, &endian);
+	return (0);
 }
 
-void	load_texture(t_game *game, t_texture *tex, char **path)
+int	load_texture(t_game *game, t_texture *tex, char **path)
 {
 	int		i;
 
@@ -43,17 +44,32 @@ void	load_texture(t_game *game, t_texture *tex, char **path)
 	i = 0;
 	while (i < tex->frame_count)
 	{
-		load_single_texture(game, tex, path[i], i);
+		if (load_single_texture(game, tex, path[i], i))
+		{
+			free(tex->img);
+			free(tex->data);
+			return (1);
+		}
 		i++;
 	}
+	return (0);
 }
 
 void	load_all_texture(t_game *game)
 {
-	load_texture(game, &game->texture[0], game->config.texture_no);
-	load_texture(game, &game->texture[1], game->config.texture_so);
-	load_texture(game, &game->texture[2], game->config.texture_we);
-	load_texture(game, &game->texture[3], game->config.texture_ea);
+	if (load_texture(game, &game->texture[0], game->config.texture_no)
+		|| load_texture(game, &game->texture[1], game->config.texture_so)
+		|| load_texture(game, &game->texture[2], game->config.texture_we)
+		|| load_texture(game, &game->texture[3], game->config.texture_ea))
+	{
+		free_split(game->grid);
+		free_checker(&game->config);
+		mlx_destroy_window(game->mlx, game->win);
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+		free(game);
+		exit(EXIT_FAILURE);
+	}
 }
 
 int	get_texture_index(int side, double ray_dir_x, double ray_dir_y)
@@ -90,8 +106,12 @@ int	parse_color(char *line, int *i)
 	}
 	rgb = ft_substr(line, *i - j, j);
 	value = (int)ft_atoi(rgb);
+	if (value < 0 || value > 255 || ft_strlen(rgb) > 3 || ft_strlen(rgb) == 0)
+	{
+		free(rgb);
+		return (error_exit("Error\nColor args: 0-255 \
+			or invalid form\n", 0), -1);
+	}
 	free(rgb);
-	if (value < 0 || value > 255)
-		return (error_exit("Error\nColor args: 0-255\n", 0), -1);
 	return (value);
 }

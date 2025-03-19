@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:21:16 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/13 18:42:53 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:54:53 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	draw_wall_tile(t_game *game, t_minimap_vars *vars, int map_x, \
 	if (vars->wx >= 0 && vars->wx < game->width && vars->wy >= 0
 		&& vars->wy < game->height)
 	{
-		if (game->grid[vars->wy][vars->wx] == '1')
+		if (game->grid[vars->wy][vars->wx] == '1'
+			&& game->grid[vars->wy][vars->wx])
 			put_pixel_mini_map(game, vars->screen_x, vars->screen_y, 0xFFFFFF);
 	}
 }

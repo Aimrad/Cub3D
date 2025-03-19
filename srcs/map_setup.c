@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:47:08 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 17:14:01 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:01:49 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ void	init_player_and_check_walls(t_game *map)
 		x = 0;
 		while (x < map->width)
 		{
-			if (map->grid[y][x] != '1' && (y == 0 || y == map->height - 1
-				|| x == 0 || x == map->width - 1))
-				return ;
 			if (is_player_char(map->grid[y][x]))
 				check_and_set_player(map, y, x);
 			x++;

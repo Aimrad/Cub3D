@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:50:03 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/13 18:38:23 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:07:46 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int			check_map(t_game *map);
 // |														|
 // # ====================================================== #
 
-void		load_texture(t_game *game, t_texture *tex, char **path);
+int			load_texture(t_game *game, t_texture *tex, char **path);
 void		load_all_texture(t_game *game);
 int			get_texture_index(int side, double ray_dir_x, double ray_dir_y);
 int			parse_color(char *line, int *i);

@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:41:10 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/13 13:53:01 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:50:18 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	handle_line(t_map_info *context, int end)
 	if (context->lines[context->nbrdechaines][0] == '\0')
 	{
 		free_split(context->lines);
-		error_exit("Ligne vide dans la carte\n", 0);
+		error_exit("Error\nLigne vide dans la carte\n", 0);
 		return (0);
 	}
 	(context->nbrdechaines)++;
@@ -129,7 +129,8 @@ t_game	*parse_map(char *map_section, t_config config)
 	map->height = info.num_lines;
 	map->grid = split_map_lines(map_section, info.num_lines);
 	if (!map->grid)
-		return (error_exit("Allocation mémoire échoué\n", 0), free(map), NULL);
+		return (error_exit("Allocation mémoire échoué\n", 0), free(map), \
+		free_checker(&config), NULL);
 	if (check_map(map))
 		return (NULL);
 	pad_map_lines(map);
