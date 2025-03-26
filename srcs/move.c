@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 17:17:52 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/05 16:03:42 by marvin           ###   ########.fr       */
+/*   Updated: 2025/03/19 13:53:59 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	right_left(t_game *game)
 {
 	double	strafe_x;
 	double	strafe_y;
-	
+
 	if (game->d == 1)
 	{
 		strafe_x = -game->dir_y;

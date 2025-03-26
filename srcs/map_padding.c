@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_padding.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:18:59 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/05 15:31:08 by marvin           ###   ########.fr       */
+/*   Updated: 2025/03/19 14:11:26 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,37 @@ static void	pad_lines(t_game *map, int len, int y)
 		handle_error(map, "Allocation mémoire échoué.\n");
 		return ;
 	}
-	ft_memset(new_line, '1', map->width);
 	ft_memcpy(new_line, map->grid[y], len);
 	free(map->grid[y]);
 	map->grid[y] = new_line;
 }
 
+static int	is_adjacent_to_space(int x, int y, t_game *map)
+{
+	if (x == 0 || x == (int)ft_strlen(map->grid[y]) - 1
+		|| y == 0 || y == map->height - 1)
+		return (1);
+	if (x > 0 && (!map->grid[y][x - 1]
+		|| map->grid[y][x - 1] == ' '))
+		return (1);
+	if (x < (int)ft_strlen(map->grid[y]) - 1 && (!map->grid[y][x + 1]
+		|| map->grid[y][x + 1] == ' '))
+		return (1);
+	if (y > 0 && (x > (int)ft_strlen(map->grid[y - 1])
+			|| !map->grid[y - 1][x] || map->grid[y - 1][x] == ' '))
+		return (1);
+	if (y < map->height - 1 && (x > (int)ft_strlen(map->grid[y + 1])
+			|| !map->grid[y + 1][x] || map->grid[y + 1][x] == ' '))
+		return (1);
+	return (0);
+}
+
 int	check_map(t_game *map)
 {
-	int	y;
-	int	x;
-	int	len;
+	int		y;
+	int		x;
+	int		len;
+	char	c;
 
 	y = 0;
 	while (y < map->height)
@@ -54,11 +74,12 @@ int	check_map(t_game *map)
 		len = (int)ft_strlen(map->grid[y]);
 		while (x < len)
 		{
-			if (map->grid[y][x] != '1' && (y == 0 || y == map->height - 1 \
-				|| x == 0 || x == len - 1))
+			c = map->grid[y][x];
+			if (c == '0' || is_player_char(c))
 			{
-				handle_error(map, "La carte doit être entourée de murs.\n");
-				return (1);
+				if (is_adjacent_to_space(x, y, map))
+					return (handle_error(map, \
+						"Error\nLa carte doit être fermé\n"), 1);
 			}
 			x++;
 		}
@@ -86,11 +107,12 @@ void	pad_map_lines(t_game *map)
 	y = 0;
 	while (y < map->height)
 	{
+		replace_spaces_with_walls(map, y);
 		len = ft_strlen(map->grid[y]);
 		if (len < map->width)
 			pad_lines(map, len, y);
 		else
-			replace_spaces_with_walls(map, y);
+			map->grid[y][map->width] = '\0';
 		y++;
 	}
 }

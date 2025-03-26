@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:41:34 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/13 00:14:54 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:53:34 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,12 @@ t_map_info	validate_map_section(char *map_section)
 	while (map_section[i])
 	{
 		if (!is_valid_map_char(map_section[i]) && map_section[i] != '\n')
+		{
+			info.num_lines = 0;
+			info.player_count = 0;
 			error_exit("Caractère invalide dans la carte.\n", 0);
+			return (info);
+		}
 		if (is_player_char(map_section[i]))
 			info.player_count++;
 		if (map_section[i] == '\n' || map_section[i + 1] == '\0')

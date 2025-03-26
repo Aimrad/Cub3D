@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:48:09 by artheon           #+#    #+#             */
-/*   Updated: 2025/02/28 16:47:28 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:01:48 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ void	free_checker(t_config *config)
 int	exit_game(t_game *game)
 {
 	free_split(game->grid);
-	free_split(game->config.texture_no);
-	free_split(game->config.texture_so);
-	free_split(game->config.texture_we);
-	free_split(game->config.texture_ea);
+	free_checker(&game->config);
 	free_texture(game);
 	mlx_destroy_image(game->mlx, game->img.img);
 	mlx_destroy_image(game->mlx, game->mini_map.img);

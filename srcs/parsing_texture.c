@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:37:46 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/13 00:22:59 by artheon          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:49:40 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,24 @@ int	alloc_texture_char(char ***texture, int nb_tex)
 char	**split_texture(char *line, int *i)
 {
 	char	**texture_tab;
+	char	*temp;
+	int		j;
 
 	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
 		(*i)++;
 	texture_tab = ft_split(line + *i, ',');
 	if (!texture_tab)
 		error_exit("Error\nMalloc failed\n", 0);
+	j = 0;
+	while (texture_tab[j])
+	{
+		temp = ft_strtrim(texture_tab[j], " \t");
+		if (!temp)
+			return (free_split(texture_tab), NULL);
+		free(texture_tab[j]);
+		texture_tab[j] = temp;
+		j++;
+	}
 	return (texture_tab);
 }
 
@@ -69,13 +81,15 @@ int	parse_texture(char ***texture, char **texture_tab, int nb_tex)
 {
 	int	fd;
 	int	j;
+	int	len;
 
 	j = 0;
 	while (j < nb_tex)
 	{
-		if (!trim_whitespace(texture_tab[j]))
+		len = (int)ft_strlen(texture_tab[j]);
+		if (len < 4 || ft_strncmp(texture_tab[j] + len - 4, ".xpm", 4))
 			return (free_path(texture, texture_tab, j, \
-				"Error\nTexture introuvable\n"));
+				"Error\nLex fichier texturex doivent être des .xpm\n"));
 		fd = open(texture_tab[j], O_RDONLY);
 		if (fd < 0)
 			return (free_path(texture, texture_tab, j, \
