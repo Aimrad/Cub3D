@@ -6,7 +6,7 @@
 /*   By: artheon <artheon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:42:38 by artheon           #+#    #+#             */
-/*   Updated: 2025/03/19 13:54:40 by artheon          ###   ########.fr       */
+/*   Updated: 2026/05/12 10:03:05 by artheon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,7 @@ int	parse_color(char *line, int *i)
 	if (value < 0 || value > 255 || ft_strlen(rgb) > 3 || ft_strlen(rgb) == 0)
 	{
 		free(rgb);
-		return (error_exit("Error\nColor args: 0-255 \
-			or invalid form\n", 0), -1);
+		return (error_exit("Error\nColor args: 0-255 or empty\n", 0), -1);
 	}
 	free(rgb);
 	return (value);
